@@ -1,0 +1,19 @@
+{data &&
+          Object.keys(data).map((topico) => (
+            <View>
+              <Text key={topico}>{topico}</Text>
+              {Object.keys(data[topico].secoes).map((secao) => (
+                <View key={secao}>
+                  <Text>{secao}</Text>
+                  {Object.values(data[topico].secoes[secao].perguntas).map(
+                    (perg, index) => (
+                      <View key={index}>
+                        <Text>{perg.pergunta}</Text>
+                        <Text>{perg.resposta}</Text>
+                      </View>
+                    )
+                  )}
+                </View>
+              ))}
+
+      
