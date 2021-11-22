@@ -54,6 +54,10 @@ const CriarItems = () => {
     status: "",
     code: "",
   });
+  const [statusPerg, setStatusPerg] = useState({
+    status: "",
+    code: "",
+  });
   const [novoTopico, setNovoTopico] = useState("");
   const [novaSecao, setNovaSecao] = useState("");
   const [novaPergunta, setNovaPergunta] = useState("");
@@ -90,11 +94,30 @@ const CriarItems = () => {
     }
   };
   const savePergunta = () => {
-    if(selecionadoTopicoPerg !== 'Tópico' && selecionadoSecao !== 'Seção' && novaPergunta !== '' && novaResposta !== '')
-    pushNovaPerg(selecionadoTopicoPerg + "/secoes/" + selecionadoSecao + "/perguntas/", {
-      pergunta: novaPergunta,
-      resposta: novaResposta,
-    })
+    if (
+      selecionadoTopicoPerg !== "Tópico" &&
+      selecionadoSecao !== "Seção" &&
+      novaPergunta !== "" &&
+      novaResposta !== ""
+    ) {
+      pushNovaPerg(
+        selecionadoTopicoPerg + "/secoes/" + selecionadoSecao + "/perguntas/",
+        {
+          pergunta: novaPergunta,
+          resposta: novaResposta,
+        }
+      );
+      setStatusPerg({ status: "Pergunta criada!", code: "sucesso" });
+    } else {
+      if (selecionadoTopicoPerg === "Tópico" || selecionadoSecao === "Seção") {
+        setStatusPerg({
+          status: "Selecione um tópico e uma seção",
+          code: "erro",
+        });
+      } else {
+        setStatusPerg({ status: "Digite valores válidos", code: "erro" });
+      }
+    }
   };
   const focusTopico = () => {
     setStatusTopicos({ status: "", code: "" });
@@ -120,145 +143,160 @@ const CriarItems = () => {
   };
 
   return (
-    <ScrollView>
-      <Container>
-        <Tab>Criar um novo tópico</Tab>
-        <Input
-          onChangeText={(text) => setNovoTopico(text)}
-          value={novoTopico}
-          placeholder="Digite um novo tópico"
-          onFocus={focusTopico}
-        />
-        <Status>
-          <StatusIcon>
-            {statusTopicos.code !== "" &&
-              (statusTopicos.code === "sucesso" ? (
-                <AntDesign name="checkcircle" size={12} color="#14CC60" />
-              ) : (
-                <AntDesign name="closecircle" size={12} color="#FF5154" />
-              ))}
-          </StatusIcon>
-          <StatusMessage code={statusTopicos.code}>
-            {statusTopicos.status}
-          </StatusMessage>
-        </Status>
-        <Button onPress={saveTopico}>
-          <ButtonTitle>Adicionar Tópico</ButtonTitle>
-        </Button>
-      </Container>
-      <Container>
-        <Tab>Criar uma nova seção</Tab>
-        <ModalSelect onPress={() => toggleModal(true)}>
-          <ModalText
-            color={
-              selecionado !== "Tópico" ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.3)"
-            }
-          >
-            {selecionado}
-          </ModalText>
-          <Entypo name="select-arrows" size={16} color="rgba(0,0,0,0.3)" />
-        </ModalSelect>
-        <Modal
-          transparent={true}
-          animationType="fade"
-          visible={modalVisivel}
-          onRequestClose={() => toggleModal(false)}
-        >
-          <ModalPicker
-            toggleModal={toggleModal}
-            setData={setData}
-            lista={topicos}
+    <Wrapper>
+      <ScrollContainer>
+        <Container>
+          <Tab>Criar um novo tópico</Tab>
+          <Input
+            onChangeText={(text) => setNovoTopico(text)}
+            value={novoTopico}
+            placeholder="Digite um novo tópico"
+            onFocus={focusTopico}
           />
-        </Modal>
-        <Input
-          onChangeText={(text) => setNovaSecao(text)}
-          value={novaSecao}
-          placeholder="Digite uma nova seção"
-        />
-        <Status>
-          <StatusIcon>
-            {statusSecao.code !== "" &&
-              (statusSecao.code === "sucesso" ? (
-                <AntDesign name="checkcircle" size={12} color="#14CC60" />
-              ) : (
-                <AntDesign name="closecircle" size={12} color="#FF5154" />
-              ))}
-          </StatusIcon>
-          <StatusMessage code={statusSecao.code}>
-            {statusSecao.status}
-          </StatusMessage>
-        </Status>
-        <Button onPress={saveSecao}>
-          <ButtonTitle>Adicionar Seção</ButtonTitle>
-        </Button>
-      </Container>
-      <Container>
-        <Tab>Criar uma nova pergunta</Tab>
-        <ContainerModais>
-          <ModalSelect onPress={() => toggleTopico(true)}>
+          <Status>
+            <StatusIcon>
+              {statusTopicos.code !== "" &&
+                (statusTopicos.code === "sucesso" ? (
+                  <AntDesign name="checkcircle" size={12} color="#14CC60" />
+                ) : (
+                  <AntDesign name="closecircle" size={12} color="#FF5154" />
+                ))}
+            </StatusIcon>
+            <StatusMessage code={statusTopicos.code}>
+              {statusTopicos.status}
+            </StatusMessage>
+          </Status>
+          <Button onPress={saveTopico}>
+            <ButtonTitle>Adicionar Tópico</ButtonTitle>
+          </Button>
+        </Container>
+        <Container>
+          <Tab>Criar uma nova seção</Tab>
+          <ModalSelect onPress={() => toggleModal(true)}>
             <ModalText
               color={
-                selecionadoTopicoPerg !== "Tópico"
-                  ? "rgba(0,0,0,0.7)"
-                  : "rgba(0,0,0,0.3)"
+                selecionado !== "Tópico" ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.3)"
               }
             >
-              {selecionadoTopicoPerg}
+              {selecionado}
             </ModalText>
             <Entypo name="select-arrows" size={16} color="rgba(0,0,0,0.3)" />
           </ModalSelect>
           <Modal
             transparent={true}
             animationType="fade"
-            visible={topicoVisivel}
-            onRequestClose={() => toggleTopico(false)}
+            visible={modalVisivel}
+            onRequestClose={() => toggleModal(false)}
           >
             <ModalPicker
-              toggleModal={toggleTopico}
-              setData={setDataTopicoPerg}
+              toggleModal={toggleModal}
+              setData={setData}
               lista={topicos}
             />
           </Modal>
-          <ModalSelect onPress={() => toggleSecao(true)}>
-            <ModalText
-              color={
-                selecionadoSecao !== "Seção"
-                  ? "rgba(0,0,0,0.7)"
-                  : "rgba(0,0,0,0.3)"
-              }
+          <Input
+            onChangeText={(text) => setNovaSecao(text)}
+            value={novaSecao}
+            placeholder="Digite uma nova seção"
+          />
+          <Status>
+            <StatusIcon>
+              {statusSecao.code !== "" &&
+                (statusSecao.code === "sucesso" ? (
+                  <AntDesign name="checkcircle" size={12} color="#14CC60" />
+                ) : (
+                  <AntDesign name="closecircle" size={12} color="#FF5154" />
+                ))}
+            </StatusIcon>
+            <StatusMessage code={statusSecao.code}>
+              {statusSecao.status}
+            </StatusMessage>
+          </Status>
+          <Button onPress={saveSecao}>
+            <ButtonTitle>Adicionar Seção</ButtonTitle>
+          </Button>
+        </Container>
+        <Container>
+          <Tab>Criar uma nova pergunta</Tab>
+          <ContainerModais>
+            <ModalSelect onPress={() => toggleTopico(true)}>
+              <ModalText
+                color={
+                  selecionadoTopicoPerg !== "Tópico"
+                    ? "rgba(0,0,0,0.7)"
+                    : "rgba(0,0,0,0.3)"
+                }
+              >
+                {selecionadoTopicoPerg}
+              </ModalText>
+              <Entypo name="select-arrows" size={16} color="rgba(0,0,0,0.3)" />
+            </ModalSelect>
+            <Modal
+              transparent={true}
+              animationType="fade"
+              visible={topicoVisivel}
+              onRequestClose={() => toggleTopico(false)}
             >
-              {selecionadoSecao}
-            </ModalText>
-            <Entypo name="select-arrows" size={16} color="rgba(0,0,0,0.3)" />
-          </ModalSelect>
-          <Modal
-            transparent={true}
-            animationType="fade"
-            visible={secaoVisivel}
-            onRequestClose={() => toggleSecao(false)}
-          >
-            <ModalPicker
-              toggleModal={toggleSecao}
-              setData={setDataSecao}
-              lista={secoes}
-            />
-          </Modal>
-        </ContainerModais>
-        <Input
-          onChangeText={(text) => setNovaPergunta(text)}
-          value={novaPergunta}
-          placeholder="Escreva uma pergunta"
-        />
-        <Input
-          onChangeText={(text) => setNovaResposta(text)}
-          value={novaResposta}
-          placeholder="Escreva uma resposta"
-        />
-        <Button onPress={savePergunta}>
-          <ButtonTitle>Adicionar Pergunta</ButtonTitle>
-        </Button>
-      </Container>
-    </ScrollView>
+              <ModalPicker
+                toggleModal={toggleTopico}
+                setData={setDataTopicoPerg}
+                lista={topicos}
+              />
+            </Modal>
+            <ModalSelect onPress={() => toggleSecao(true)}>
+              <ModalText
+                color={
+                  selecionadoSecao !== "Seção"
+                    ? "rgba(0,0,0,0.7)"
+                    : "rgba(0,0,0,0.3)"
+                }
+              >
+                {selecionadoSecao}
+              </ModalText>
+              <Entypo name="select-arrows" size={16} color="rgba(0,0,0,0.3)" />
+            </ModalSelect>
+            <Modal
+              transparent={true}
+              animationType="fade"
+              visible={secaoVisivel}
+              onRequestClose={() => toggleSecao(false)}
+            >
+              <ModalPicker
+                toggleModal={toggleSecao}
+                setData={setDataSecao}
+                lista={secoes}
+              />
+            </Modal>
+          </ContainerModais>
+          <Input
+            onChangeText={(text) => setNovaPergunta(text)}
+            value={novaPergunta}
+            placeholder="Escreva uma pergunta"
+          />
+          <Input
+            onChangeText={(text) => setNovaResposta(text)}
+            value={novaResposta}
+            placeholder="Escreva uma resposta"
+          />
+          <Status>
+            <StatusIcon>
+              {statusPerg.code !== "" &&
+                (statusPerg.code === "sucesso" ? (
+                  <AntDesign name="checkcircle" size={12} color="#14CC60" />
+                ) : (
+                  <AntDesign name="closecircle" size={12} color="#FF5154" />
+                ))}
+            </StatusIcon>
+            <StatusMessage code={statusPerg.code}>
+              {statusPerg.status}
+            </StatusMessage>
+          </Status>
+          <Button onPress={savePergunta}>
+            <ButtonTitle>Adicionar Pergunta</ButtonTitle>
+          </Button>
+        </Container>
+      </ScrollContainer>
+    </Wrapper>
   );
 };
 

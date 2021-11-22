@@ -56,7 +56,7 @@ export const StatusMessage = styled.Text`
 export const ModalSelect = styled.TouchableOpacity`
   flex-direction:row;
   justify-content:space-between;
-  width:50%;
+  width:48%;
   align-items:stretch;
   background-color: #fff;
   padding: 8px 10px;
@@ -79,8 +79,9 @@ export const ModalText = styled.Text`
 
 export const ContainerModais = styled.View`
   flex-direction: row;
+  justify-content:space-between;
   align-items: center;
-  align-self: flex-start;
+ 
   margin-bottom: 5px;
 `;
 export const ModalContainer = styled.TouchableOpacity`

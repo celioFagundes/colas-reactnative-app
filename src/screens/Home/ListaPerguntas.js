@@ -33,7 +33,7 @@ if (
 
 const ExpandableComponent = ({ item, onClickFunction}) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
-
+  
   useEffect(() => {
     if (item.expandido) {
       setLayoutHeight(null);
@@ -79,7 +79,7 @@ const ListaPerguntas = ({ data }) => {
     }
     setDataSource(array);
   };
-
+  
   return (
     <ContainerPerguntas>
       <PerguntasHeader>
@@ -99,10 +99,11 @@ const ListaPerguntas = ({ data }) => {
       </PerguntasHeader>
       <View>
         {dataSource &&
-          Object.values(dataSource).map((item, index) => (
+          Object.keys(dataSource).map((item, index) => (
+            
             <ExpandableComponent
-              item={item}
-              key={item.pergunta}
+              item={dataSource[item]}
+              key={item}
               onClickFunction={() => updateLayout(index)}           
             />
           ))}
