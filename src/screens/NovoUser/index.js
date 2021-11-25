@@ -1,5 +1,5 @@
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useState , useEffect} from "react";
 import { View, Text, Button, TextInput } from "react-native";
 import { AuthContext } from "../../config/auth";
 
@@ -8,13 +8,16 @@ const NovoUser = (props) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  if (auth.user !== null) {
-    props.navigation.navigate("Main");
-  }
+  useEffect(() => {
+    if (auth.loading && auth.user !== null) {
+      props.navigation.navigate("Main");
+    }
+  }, [auth.user])
+  
   return (
     <View style={{ padding: 20 }}>
+      <Button title ='Voltar' onPress = {() => props.navigation.navigate('Login')}/>
       <Text>
-        {" "}
         {auth.createUser.createUserStatus.error.code !== "" &&
           auth.createUser.createUserStatus.error.code}
       </Text>

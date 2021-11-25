@@ -16,10 +16,11 @@ const Login = (props) => {
   return (
     <View style={{ padding: 20 }}>
      <Text>
-        {" "}
-        {auth.login.loginStatus.code !== "" &&
+        
+        {auth.login.loginStatus.code !== null &&
           auth.login.loginStatus.code}
       </Text>
+      <Text>{email}</Text>
       <TextInput
         onChangeText={(text) => setEmail(text)}
         value={email}
@@ -31,7 +32,7 @@ const Login = (props) => {
         style={{ borderColor: "#0ff", borderWidth: 1 }}
       />
       <Button
-        title="novo user"
+        title="Login"
         onPress={() => auth.login.login(email, senha)}
       />
       <Text>Criar uma conta</Text>

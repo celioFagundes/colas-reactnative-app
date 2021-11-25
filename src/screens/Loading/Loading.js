@@ -15,7 +15,7 @@ const Loading = (props) => {
         }
     },[auth.loading, auth.user])
     return (
-        <View>
+        <View style = {{flex: 1, backgroundColor: '#3772ff'}}>
             <Text>Caregando ...</Text>
             <Text>{JSON.stringify(auth.user)}</Text>
         </View>

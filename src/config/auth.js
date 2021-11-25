@@ -27,12 +27,14 @@ const useCreateUser = () => {
 };
 
 const useLogin =() =>{
-  const [status, setStatus] = useState({})
+  const [status, setStatus] = useState('')
   const login = (email, password) =>{
     signInWithEmailAndPassword(auth,email,password)
+    
     .catch(error =>{
       setStatus(error)
     })
+    setStatus('')
   }
   return [status,login]
 }

@@ -19,9 +19,9 @@ const App = () => {
   const [secao, setSecao] = useState(null);
   const [secaoKey, setSecaoKey] = useState(null);
 
-  const data = useDatabase("/celio/topicos/");
-  const dataSecoes = useDatabase("/celio/secoes/" + topico);
-  const dataPerguntas = useDatabase("/celio/perguntas/" + topico + "/" + secao);
+  const data = useDatabase("/topicos/");
+  const dataSecoes = useDatabase("/secoes/" + topico);
+  const dataPerguntas = useDatabase("/perguntas/" + topico + "/" + secao);
   const remove = useDatabaseRemove();
   const dataRef = useRef(null);
 
@@ -35,15 +35,15 @@ const App = () => {
   };
 
   const excluirTopico = () => {
-    remove("/celio/topicos/" + topicoKey);
-    remove("/celio/secoes/" + '/' + topico );
-    remove("/celio/perguntas/" + '/' + topico );
+    remove("/topicos/" + topicoKey);
+    remove("/secoes/" + '/' + topico );
+    remove("/perguntas/" + '/' + topico );
     setTopico(null);
     setTopicoKey(null);
   };
   const excluirSecao = () => {
-    remove("/celio/secoes/" + '/' + topico + '/' + secaoKey);
-    remove("/celio/perguntas/" + '/' + topico + '/' + secao);
+    remove("/secoes/" + '/' + topico + '/' + secaoKey);
+    remove("/perguntas/" + '/' + topico + '/' + secao);
     setSecao(null);
     setSecaoKey(null);
   };

@@ -45,7 +45,7 @@ const ExpandableComponent = ({ item, onClickFunction, id, topico, secao }) => {
   }, [item.expandido]);
   const excluirPergunta = (id) => {
     remove(
-      "/celio/perguntas/" + topico + "/" + secao + '/'+ id
+      "/perguntas/" + topico + "/" + secao + '/'+ id
     );
   };
   return (

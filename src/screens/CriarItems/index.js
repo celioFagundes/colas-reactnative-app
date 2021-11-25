@@ -38,9 +38,9 @@ const CriarItems = () => {
   const [selecionadoSecao, setSelecionadoSecao] = useState("Seção");
   const [selecionadoTopicoPerg, setSelecionadoTopicoPerg] = useState("Tópico");
 
-  const topicos = useDatabase("/celio/topicos/");
-  const secoes = useDatabase("/celio/secoes/" + selecionado);
-  const secoesPerg = useDatabase("/celio/secoes/" + selecionadoTopicoPerg);
+  const topicos = useDatabase("/topicos/");
+  const secoes = useDatabase("/secoes/" + selecionado);
+  const secoesPerg = useDatabase("/secoes/" + selecionadoTopicoPerg);
 
   const [modalVisivel, setModalVisivel] = useState(false);
   const [topicoVisivel, setTopicoVisivel] = useState(false);
@@ -62,7 +62,7 @@ const CriarItems = () => {
   const [novaPergunta, setNovaPergunta] = useState("");
   const [novaResposta, setNovaResposta] = useState("");
   const [dataStatus, pushNovaData] = useDatabasePush();
-  const [pergPush, pushNovaPerg] = useDatabasePushPergunta("/celio/topicos/");
+  
 
   const saveTopico = () => {
     let listaTopicos = [];
@@ -72,7 +72,7 @@ const CriarItems = () => {
     console.log(listaTopicos);
     if (novoTopico !== "") {
       if (topicos === null || !listaTopicos.includes(novoTopico)) {
-        pushNovaData("/celio/topicos/", { topico: novoTopico });
+        pushNovaData("/topicos/", { topico: novoTopico });
         Keyboard.dismiss();
         setStatusTopicos({ status: "Tópico criado", code: "sucesso" });
       } else {
@@ -91,7 +91,7 @@ const CriarItems = () => {
     });
     if (novaSecao !== "" && selecionado !== "Selecione um tópico") {
       if (secoes === null || !listaSecoes.includes(novaSecao)) {
-        pushNovaData( "celio/secoes/" + selecionado, {secao: novaSecao});
+        pushNovaData( "/secoes/" + selecionado, {secao: novaSecao});
         Keyboard.dismiss();
         setStatusSecao({ status: "Seção criada", code: "sucesso" });
       } else {
@@ -111,7 +111,7 @@ const CriarItems = () => {
       novaResposta !== ""
     ) {
       pushNovaData(
-        'celio/perguntas/' + selecionadoTopicoPerg + '/'+ selecionadoSecao,
+        '/perguntas/' + selecionadoTopicoPerg + '/'+ selecionadoSecao,
         {
           pergunta: novaPergunta,
           resposta: novaResposta,
