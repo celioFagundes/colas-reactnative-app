@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Fontisto,Octicons } from "@expo/vector-icons";
+import { Fontisto, Octicons } from "@expo/vector-icons";
 
 import {
   View,
@@ -22,8 +22,10 @@ import {
   Resposta,
   TextoPergunta,
   TextoResposta,
-  IconArrow
+  IconArrow,
+  Excluir,
 } from "./styles";
+import { useDatabaseRemove } from "../../config/database";
 if (
   Platform.OS === "android" &&
   UIManager.setLayoutAnimationEnabledExperimental
@@ -31,9 +33,9 @@ if (
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-const ExpandableComponent = ({ item, onClickFunction}) => {
+const ExpandableComponent = ({ item, onClickFunction, id, topico, secao }) => {
   const [layoutHeight, setLayoutHeight] = useState(0);
-  
+  const remove = useDatabaseRemove();
   useEffect(() => {
     if (item.expandido) {
       setLayoutHeight(null);
@@ -41,23 +43,34 @@ const ExpandableComponent = ({ item, onClickFunction}) => {
       setLayoutHeight(0);
     }
   }, [item.expandido]);
+  const excluirPergunta = (id) => {
+    remove(
+      "/celio/perguntas/" + topico + "/" + secao + '/'+ id
+    );
+  };
   return (
     <BoxPergunta>
-      <Pergunta onPress={onClickFunction} expandido = {item.expandido}>
+      <Pergunta onPress={onClickFunction} expandido={item.expandido}>
         <TextoPergunta>{item.pergunta}</TextoPergunta>
-        <IconArrow >
-          {  item.expandido ? <Octicons name="arrow-small-up" size={24} color="#fff" /> :<Octicons name="arrow-small-down" size={28} color="#fff" />}
+        <IconArrow>
+          {item.expandido ? (
+            <Octicons name="arrow-small-up" size={24} color="#fff" />
+          ) : (
+            <Octicons name="arrow-small-down" size={28} color="#fff" />
+          )}
         </IconArrow>
       </Pergunta>
-      <View style = {{height: layoutHeight, overflow: 'hidden',}}>
+      <View style={{ height: layoutHeight, overflow: "hidden" }}>
         <Resposta>
           <TextoResposta> {item.resposta}</TextoResposta>
+          
         </Resposta>
+        <Excluir onPress={() => excluirPergunta(id)}>Excluir Pergunta</Excluir>
       </View>
     </BoxPergunta>
   );
 };
-const ListaPerguntas = ({ data }) => {
+const ListaPerguntas = ({ data, topico, secao }) => {
   const [dataSource, setDataSource] = useState(data);
   const [multiSelect, setMultiSelect] = useState(false);
 
@@ -79,7 +92,7 @@ const ListaPerguntas = ({ data }) => {
     }
     setDataSource(array);
   };
-  
+
   return (
     <ContainerPerguntas>
       <PerguntasHeader>
@@ -100,12 +113,16 @@ const ListaPerguntas = ({ data }) => {
       <View>
         {dataSource &&
           Object.keys(dataSource).map((item, index) => (
-            
-            <ExpandableComponent
-              item={dataSource[item]}
-              key={item}
-              onClickFunction={() => updateLayout(index)}           
-            />
+            <View key = {index}>
+              <ExpandableComponent
+                item={dataSource[item]}
+                key={index}
+                id={item}
+                onClickFunction={() => updateLayout(index)}
+                topico={topico}
+                secao={secao}
+              />
+            </View>
           ))}
       </View>
     </ContainerPerguntas>

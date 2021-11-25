@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import firebase from "./firebase";
-import { getDatabase, ref, onValue, set, push } from "@firebase/database";
+import { getDatabase, ref, onValue, set, push,remove } from "@firebase/database";
 
 const database = getDatabase(firebase);
 export const useDatabase = (endpoint) => {
@@ -17,12 +17,13 @@ export const useDatabase = (endpoint) => {
   }, [endpoint]);
   return data;
 };
-export const useDatabasePush = (user) => {
+export const useDatabasePush = () => {
   const [status, setStatus] = useState("");
 
   const save = (endpoint, data) => {
-    const dataRef = ref(database, user + endpoint);
-    set(dataRef, data);
+    const dataRef = ref(database, endpoint);
+    const novaRef = push(dataRef);
+    set(novaRef, data);
   };
   return [status, save];
 };
@@ -36,3 +37,10 @@ export const useDatabasePushPergunta = (user) => {
   };
   return [status, save];
 };
+export const useDatabaseRemove = () =>{
+  const removeItem = endpoint =>{
+    const dataRef = ref(database, endpoint)
+    const removeRef = remove(dataRef)
+  }
+  return removeItem
+}

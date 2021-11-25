@@ -10,7 +10,7 @@ const Tab = createBottomTabNavigator();
 const Navigation = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Criar"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         unmountOnBlur: true,

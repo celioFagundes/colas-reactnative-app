@@ -39,9 +39,8 @@ const CriarItems = () => {
   const [selecionadoTopicoPerg, setSelecionadoTopicoPerg] = useState("Tópico");
 
   const topicos = useDatabase("/celio/topicos/");
-  const secoes = useDatabase(
-    "/celio/topicos/" + selecionadoTopicoPerg + "/secoes/"
-  );
+  const secoes = useDatabase("/celio/secoes/" + selecionado);
+  const secoesPerg = useDatabase("/celio/secoes/" + selecionadoTopicoPerg);
 
   const [modalVisivel, setModalVisivel] = useState(false);
   const [topicoVisivel, setTopicoVisivel] = useState(false);
@@ -62,13 +61,18 @@ const CriarItems = () => {
   const [novaSecao, setNovaSecao] = useState("");
   const [novaPergunta, setNovaPergunta] = useState("");
   const [novaResposta, setNovaResposta] = useState("");
-  const [dataStatus, pushNovaData] = useDatabasePush("/celio/topicos/");
+  const [dataStatus, pushNovaData] = useDatabasePush();
   const [pergPush, pushNovaPerg] = useDatabasePushPergunta("/celio/topicos/");
 
   const saveTopico = () => {
+    let listaTopicos = [];
+    topicos !== null && Object.keys(topicos).map((top) => {
+      listaTopicos.push(topicos[top].topico);
+    });
+    console.log(listaTopicos);
     if (novoTopico !== "") {
-      if (topicos === null || !Object.keys(topicos).includes(novoTopico)) {
-        pushNovaData(novoTopico, "Sem Seções");
+      if (topicos === null || !listaTopicos.includes(novoTopico)) {
+        pushNovaData("/celio/topicos/", { topico: novoTopico });
         Keyboard.dismiss();
         setStatusTopicos({ status: "Tópico criado", code: "sucesso" });
       } else {
@@ -79,9 +83,15 @@ const CriarItems = () => {
     }
   };
   const saveSecao = () => {
+    let listaSecoes = [];
+     secoes !== null && Object.keys(secoes).map(sec =>{
+      listaSecoes.push(secoes[sec].secao)
+      console.log(secoes[sec].secao)
+      
+    });
     if (novaSecao !== "" && selecionado !== "Selecione um tópico") {
-      if (secoes === null || !Object.keys(secoes).includes(novaSecao)) {
-        pushNovaData(selecionado + "/secoes/" + novaSecao, "Sem perguntas");
+      if (secoes === null || !listaSecoes.includes(novaSecao)) {
+        pushNovaData( "celio/secoes/" + selecionado, {secao: novaSecao});
         Keyboard.dismiss();
         setStatusSecao({ status: "Seção criada", code: "sucesso" });
       } else {
@@ -100,8 +110,8 @@ const CriarItems = () => {
       novaPergunta !== "" &&
       novaResposta !== ""
     ) {
-      pushNovaPerg(
-        selecionadoTopicoPerg + "/secoes/" + selecionadoSecao + "/perguntas/",
+      pushNovaData(
+        'celio/perguntas/' + selecionadoTopicoPerg + '/'+ selecionadoSecao,
         {
           pergunta: novaPergunta,
           resposta: novaResposta,
@@ -142,6 +152,9 @@ const CriarItems = () => {
     setSelecionadoTopicoPerg(option);
   };
 
+  const resetSecao = () =>{
+    setSelecionadoSecao('Seção')
+  }
   return (
     <Wrapper>
       <ScrollContainer>
@@ -241,6 +254,8 @@ const CriarItems = () => {
                 toggleModal={toggleTopico}
                 setData={setDataTopicoPerg}
                 lista={topicos}
+                reset = {true}
+                resetSecao = {resetSecao}
               />
             </Modal>
             <ModalSelect onPress={() => toggleSecao(true)}>
@@ -264,7 +279,8 @@ const CriarItems = () => {
               <ModalPicker
                 toggleModal={toggleSecao}
                 setData={setDataSecao}
-                lista={secoes}
+                lista={secoesPerg && Object.values(secoesPerg)}
+                isSecao = {true}
               />
             </Modal>
           </ContainerModais>

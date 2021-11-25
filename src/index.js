@@ -1,26 +1,31 @@
-import React from "react";
+import React  from "react";
+import { AuthProvider } from "./config/auth";
 import { NavigationContainer } from "@react-navigation/native";
-import Navigation from "./Navigation";
-import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import { createStackNavigator } from "@react-navigation/stack";
+import Navigation from "./Navigation";
+import Login from "./screens/Login";
+import NovoUser from "./screens/NovoUser";
+
+const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <StatusBar
-        style="dark"
-        backgroundColor={ '#fff'}
-        translucent={false}
-      />
-      <Navigation />
-    </NavigationContainer>
+      <NavigationContainer>
+        <StatusBar style="dark" backgroundColor={"#fff"} translucent={false} />
+        <Stack.Navigator 
+          initialRouteName="Login"
+          screenOptions={{
+          headerShown: false,
+          unmountOnBlur: true,
+        }}>
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name='NovoUser' component={NovoUser} />
+          <Stack.Screen name="Main" component={Navigation} />
+      
+        </Stack.Navigator>
+      </NavigationContainer>
   );
 };
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+
 export default App;

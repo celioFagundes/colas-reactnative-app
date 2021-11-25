@@ -58,3 +58,7 @@ export const IconArrow = styled.View`
   top: 20px;
   right: 10px;
 `;
+export const Excluir = styled.Text`
+  color : #FF5154;
+  align-self:flex-end;
+`;
