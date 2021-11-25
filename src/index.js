@@ -6,6 +6,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Navigation from "./Navigation";
 import Login from "./screens/Login";
 import NovoUser from "./screens/NovoUser";
+import Loading from "./screens/Loading/Loading";
 
 const Stack = createStackNavigator();
 
@@ -14,11 +15,12 @@ const App = () => {
       <NavigationContainer>
         <StatusBar style="dark" backgroundColor={"#fff"} translucent={false} />
         <Stack.Navigator 
-          initialRouteName="Login"
+          initialRouteName="Loading"
           screenOptions={{
           headerShown: false,
           unmountOnBlur: true,
         }}>
+          <Stack.Screen name="Loading" component={Loading} />
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name='NovoUser' component={NovoUser} />
           <Stack.Screen name="Main" component={Navigation} />

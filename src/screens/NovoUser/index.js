@@ -1,4 +1,4 @@
-<script src="http://localhost:8097"></script>;
+
 import React, { useContext, useState } from "react";
 import { View, Text, Button, TextInput } from "react-native";
 import { AuthContext } from "../../config/auth";

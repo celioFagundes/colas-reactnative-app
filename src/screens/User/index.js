@@ -16,12 +16,14 @@ import { Wrapper } from "../../styles/styles";
 const Config = (props) => {
   const auth = useContext(AuthContext);
 
-  if(auth.user === null){
-    props.navigation.navigate('Login')
+  
+  const onClickLogout = () =>{
+    auth.logout()
+    props.navigation.navigate('Loading')
   }
   return (
     <Wrapper>
-      <Button title="logout" onPress={auth.logout} />
+      <Button title="logout" onPress={onClickLogout} />
     </Wrapper>
   );
 };

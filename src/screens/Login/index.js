@@ -1,5 +1,4 @@
-<script src="http://localhost:8097"></script>;
-import React, { useContext, useState } from "react";
+import React, { useContext, useState ,useEffect} from "react";
 import { AuthContext } from "../../config/auth";
 import { View, Text, Button, TextInput } from "react-native";
 
@@ -8,14 +7,18 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  if (auth.user !== null) {
-    props.navigation.navigate("Main");
-  }
+  
+  useEffect(() =>{
+    if (auth.user !== null) {
+      props.navigation.navigate("Main");
+    }
+  })
   return (
     <View style={{ padding: 20 }}>
-      <Text>
-        {auth.createUser.createUserStatus.error.code !== "" &&
-          auth.createUser.createUserStatus.error.code}
+     <Text>
+        {" "}
+        {auth.login.loginStatus.code !== "" &&
+          auth.login.loginStatus.code}
       </Text>
       <TextInput
         onChangeText={(text) => setEmail(text)}
@@ -28,8 +31,13 @@ const Login = (props) => {
         style={{ borderColor: "#0ff", borderWidth: 1 }}
       />
       <Button
-        title="login"
-        onPress={() => auth.createUser.createUser(email, senha)}
+        title="novo user"
+        onPress={() => auth.login.login(email, senha)}
+      />
+      <Text>Criar uma conta</Text>
+      <Button
+        title="novo user"
+        onPress={() => props.navigation.navigate('NovoUser')}
       />
     </View>
   );
