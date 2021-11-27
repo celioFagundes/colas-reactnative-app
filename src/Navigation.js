@@ -1,5 +1,6 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { BackHandler } from "react-native";
 import Home from "./screens/Home";
 import User from "./screens/User";
 import CriarItems from "./screens/CriarItems";
@@ -8,6 +9,7 @@ import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 const Tab = createBottomTabNavigator();
 
 const Navigation = () => {
+
   return (
     <Tab.Navigator
     initialRouteName ='Home'

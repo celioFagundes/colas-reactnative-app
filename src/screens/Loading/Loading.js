@@ -1,25 +1,23 @@
-import React , {useContext, useEffect}from 'react'
-import { AuthContext } from '../../config/auth'
-import {View, Text} from 'react-native'
+import React, { useContext, useEffect ,useCallback} from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { AuthContext } from "../../config/auth";
+import { View, Text , ActivityIndicator} from "react-native";
+import{ Wrapper} from './style.js'
 
 const Loading = (props) => {
-    const auth = useContext(AuthContext)
+  const auth = useContext(AuthContext);
+  useFocusEffect(() => {
+      if (auth.loading && auth.user === null) {
+        props.navigation.navigate("Login");
+      } else if (auth.loading && auth.user !== null) {
+        props.navigation.navigate("Main");
+      }
+    });
+  return (
+    <Wrapper colors={["#6E99FF", "#3772ff"]}>
+      <ActivityIndicator size = 'large' color = '#fff'/>
+    </Wrapper>
+  );
+};
 
-    
-    useEffect(() =>{
-        if(auth.loading && auth.user === null){
-            props.navigation.navigate('Login')
-        }
-        else if(auth.loading && auth.user !== null){
-            props.navigation.navigate('Main')
-        }
-    },[auth.loading, auth.user])
-    return (
-        <View style = {{flex: 1, backgroundColor: '#3772ff'}}>
-            <Text>Caregando ...</Text>
-            <Text>{JSON.stringify(auth.user)}</Text>
-        </View>
-        )
-}
-
-export default Loading
+export default Loading;

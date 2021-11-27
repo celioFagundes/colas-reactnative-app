@@ -11,33 +11,31 @@ export const AuthContext = createContext();
 const auth = getAuth();
 
 const useCreateUser = () => {
-  const [status, setStatus] = useState({ success: "", error: "" });
+  const [status, setStatus] = useState({ success: null, error: null });
 
   const createUser = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredencial) => {
         const user = userCredencial.user;
-        setStatus({ sucess: "ok", error: "" });
+        setStatus({ sucess: "ok", error: null });
       })
       .catch((error) => {
-        setStatus({ sucess: "", error: error });
+        setStatus({ sucess: null, error: error });
       });
   };
   return [status, createUser];
 };
 
-const useLogin =() =>{
-  const [status, setStatus] = useState('')
-  const login = (email, password) =>{
-    signInWithEmailAndPassword(auth,email,password)
-    
-    .catch(error =>{
-      setStatus(error)
-    })
-    setStatus('')
-  }
-  return [status,login]
-}
+const useLogin = () => {
+  const [status, setStatus] = useState(null);
+  const login = (email, password) => {
+    signInWithEmailAndPassword(auth, email, password).catch((error) => {
+      setStatus(error);
+    });
+    setStatus(null);
+  };
+  return [status, login];
+};
 const useGetUser = () => {
   const [user, setUser] = useState(null);
   const [authFinalizou, setAuthFinalizou] = useState(false);
@@ -49,22 +47,24 @@ const useGetUser = () => {
         setAuthFinalizou(true);
       } else {
         setAuthFinalizou(true);
-        setUser(null)
-        
+        setUser(null);
       }
     });
   }, []);
   return [user, authFinalizou];
 };
 
-const logout = () => {
-  signOut(auth)
-};
+
+  
+  const logout = async() => {
+    await signOut(auth)
+  };
+  
 
 const AuthProvider = ({ children }) => {
   const [user, loading] = useGetUser();
   const [createUserStatus, createUser] = useCreateUser();
-  const [loginStatus, login] = useLogin()
+  const [loginStatus, login] = useLogin();
 
   return (
     <AuthContext.Provider
@@ -76,9 +76,10 @@ const AuthProvider = ({ children }) => {
           createUserStatus,
           createUser,
         },
-        login :{
-          loginStatus, login
-        }
+        login: {
+          loginStatus,
+          login,
+        },
       }}
     >
       {children}

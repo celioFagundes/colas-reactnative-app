@@ -1,4 +1,5 @@
-import React  from "react";
+import React, { useEffect } from "react";
+import { BackHandler } from "react-native";
 import { AuthProvider } from "./config/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
@@ -11,22 +12,28 @@ import Loading from "./screens/Loading/Loading";
 const Stack = createStackNavigator();
 
 const App = () => {
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => true
+    );
+    return () => backHandler.remove();
+  }, []);
   return (
-      <NavigationContainer>
-        <StatusBar style="dark" backgroundColor={"#fff"} translucent={false} />
-        <Stack.Navigator 
-          initialRouteName="Loading"
-          screenOptions={{
+    <NavigationContainer>
+      <StatusBar style="dark" backgroundColor={"#fff"} translucent={false} />
+      <Stack.Navigator
+        initialRouteName="Loading"
+        screenOptions={{
           headerShown: false,
-          unmountOnBlur: true,
-        }}>
-          <Stack.Screen name="Loading" component={Loading} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name='NovoUser' component={NovoUser} />
-          <Stack.Screen name="Main" component={Navigation} />
-      
-        </Stack.Navigator>
-      </NavigationContainer>
+        }}
+      >
+        <Stack.Screen name="Loading" component={Loading} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="NovoUser" component={NovoUser} />
+        <Stack.Screen name="Main" component={Navigation} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

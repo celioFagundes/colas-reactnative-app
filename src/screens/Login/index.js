@@ -1,46 +1,82 @@
-import React, { useContext, useState ,useEffect} from "react";
+import React, { useContext, useState, useEffect , useCallback} from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import { AuthContext } from "../../config/auth";
-import { View, Text, Button, TextInput } from "react-native";
-
+import { View, Text, TextInput } from "react-native";
+import {
+  Wrapper,
+  Input,
+  Button,
+  ButtonTitle,
+  NovaConta,
+  Link,
+  Error,
+} from "./style";
 const Login = (props) => {
   const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [showError, setShowError] = useState(false)
 
-  
-  useEffect(() =>{
+  useEffect(() => {
     if (auth.user !== null) {
-      props.navigation.navigate("Main");
+      props.navigation.navigate("Loading");
     }
-  })
+  },[auth.user]);
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setShowError(false)
+      };
+    }, [])
+  );
+  const renderError = (error) => {
+    switch (error) {
+      case "auth/invalid-email":
+        return "Digite um email válido";
+      case "auth/wrong-password":
+        return "Senha incorreta";
+      default:
+        return "Digite um email e uma senha ";
+    }
+  };
+
+  const loginUser = (email,senha) =>{
+    auth.login.login(email, senha)
+    setShowError(true)
+  }
   return (
-    <View style={{ padding: 20 }}>
-     <Text>
-        
-        {auth.login.loginStatus.code !== null &&
-          auth.login.loginStatus.code}
-      </Text>
-      <Text>{email}</Text>
-      <TextInput
+    <Wrapper colors={["#6E99FF", "#3772ff"]}>
+      <Text></Text>
+      <Input
+        autoCompleteType="off"
         onChangeText={(text) => setEmail(text)}
         value={email}
-        style={{ borderColor: "#000", borderWidth: 1 }}
+        placeholder="Digite seu email"
       />
-      <TextInput
+      <Input
+        autoCompleteType="off"
         onChangeText={(text) => setSenha(text)}
         value={senha}
-        style={{ borderColor: "#0ff", borderWidth: 1 }}
+        placeholder="Digite sua senha"
+        secureTextEntry={true}
       />
-      <Button
-        title="Login"
-        onPress={() => auth.login.login(email, senha)}
-      />
-      <Text>Criar uma conta</Text>
-      <Button
-        title="novo user"
-        onPress={() => props.navigation.navigate('NovoUser')}
-      />
-    </View>
+      {auth.login.loginStatus !== null &&  showError && (
+        <Error>
+          {renderError(auth.login.loginStatus.code)}
+        </Error>
+      )}
+      <Button onPress={() => loginUser(email, senha)}>
+        <ButtonTitle>Entrar</ButtonTitle>
+      </Button>
+
+      <NovaConta>
+        Não possui uma conta ?{" "}
+        <Link onPress={() => props.navigation.navigate("NovoUser")}>
+          Criar uma conta
+        </Link>
+      </NovaConta>
+    </Wrapper>
   );
 };
 
