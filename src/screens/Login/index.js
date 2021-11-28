@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect , useCallback} from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import { AuthContext } from "../../config/auth";
 import { View, Text, TextInput } from "react-native";
@@ -15,18 +15,18 @@ const Login = (props) => {
   const auth = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [showError, setShowError] = useState(false)
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     if (auth.user !== null) {
       props.navigation.navigate("Loading");
     }
-  },[auth.user]);
+  }, [auth.user]);
 
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setShowError(false)
+        setShowError(false);
       };
     }, [])
   );
@@ -36,15 +36,17 @@ const Login = (props) => {
         return "Digite um email válido";
       case "auth/wrong-password":
         return "Senha incorreta";
+      case "auth/user-not-found":
+        return "Usuario não encontrado";
       default:
-        return "Digite um email e uma senha ";
+        return "Digite um email e senha válidos";
     }
   };
 
-  const loginUser = (email,senha) =>{
-    auth.login.login(email, senha)
-    setShowError(true)
-  }
+  const loginUser = (email, senha) => {
+    auth.login.login(email, senha);
+    setShowError(true);
+  };
   return (
     <Wrapper colors={["#6E99FF", "#3772ff"]}>
       <Text></Text>
@@ -61,10 +63,8 @@ const Login = (props) => {
         placeholder="Digite sua senha"
         secureTextEntry={true}
       />
-      {auth.login.loginStatus !== null &&  showError && (
-        <Error>
-          {renderError(auth.login.loginStatus.code)}
-        </Error>
+      {auth.login.loginStatus !== null && showError && (
+        <Error>{renderError(auth.login.loginStatus.code)}</Error>
       )}
       <Button onPress={() => loginUser(email, senha)}>
         <ButtonTitle>Entrar</ButtonTitle>

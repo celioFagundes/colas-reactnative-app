@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect , useContext} from "react";
 import {
   ScrollContainer,
   Wrapper,
@@ -12,8 +12,10 @@ import { StyleSheet, Text, View, FlatList } from "react-native";
 
 import { useDatabase, useDatabaseRemove } from "../../config/database";
 import { Excluir } from "./styles";
+import { AuthContext } from "../../config/auth";
 
-const App = () => {
+const Home = (props) => {
+  const auth = useContext(AuthContext)
   const [topico, setTopico] = useState(null);
   const [topicoKey, setTopicoKey] = useState(null)
   const [secao, setSecao] = useState(null);
@@ -48,6 +50,11 @@ const App = () => {
     setSecaoKey(null);
   };
   
+  useEffect(() => {
+    if(auth.loading && auth.user === null){
+        props.navigation.navigate("Loading");
+    }
+  }, [auth.user])
   return (
     <Wrapper>
       <ScrollContainer>
@@ -114,4 +121,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Home;

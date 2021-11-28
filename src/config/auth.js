@@ -54,12 +54,9 @@ const useGetUser = () => {
   return [user, authFinalizou];
 };
 
-
-  
-  const logout = async() => {
-    await signOut(auth)
-  };
-  
+const logout = async () => {
+  await signOut(auth);
+};
 
 const AuthProvider = ({ children }) => {
   const [user, loading] = useGetUser();

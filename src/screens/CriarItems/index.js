@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useContext} from "react";
 import { AntDesign, Entypo } from "@expo/vector-icons";
 import {
   View,
@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import ModalPicker from "./ModalPicker";
-
+import { AuthContext } from "../../config/auth";
 import {
   Wrapper,
   ButtonTitle,
@@ -33,7 +33,8 @@ import {
   useDatabasePushPergunta,
 } from "../../config/database";
 
-const CriarItems = () => {
+const CriarItems = (props) => {
+  const auth = useContext(AuthContext)
   const [selecionado, setSelecionado] = useState("Tópico");
   const [selecionadoSecao, setSelecionadoSecao] = useState("Seção");
   const [selecionadoTopicoPerg, setSelecionadoTopicoPerg] = useState("Tópico");
@@ -155,6 +156,12 @@ const CriarItems = () => {
   const resetSecao = () =>{
     setSelecionadoSecao('Seção')
   }
+
+  useEffect(() => {
+    if(auth.loading && auth.user === null){
+        props.navigation.navigate("Loading");
+    }
+  }, [auth.user])
   return (
     <Wrapper>
       <ScrollContainer>

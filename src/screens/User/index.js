@@ -6,11 +6,7 @@ import { Wrapper } from "../../styles/styles";
 const Config = (props) => {
   const auth = useContext(AuthContext);
 
-  const onClickLogout = async() => {
-    await auth.logout()
-    props.navigation.navigate('Loading')
-    
-  };
+  
   return (
     <Wrapper>
       <Text> {JSON.stringify(auth.user)}</Text>

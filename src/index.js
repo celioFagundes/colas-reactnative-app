@@ -22,6 +22,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <StatusBar style="dark" backgroundColor={"#fff"} translucent={false} />
+      
       <Stack.Navigator
         initialRouteName="Loading"
         screenOptions={{
