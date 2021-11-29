@@ -44,7 +44,8 @@ const Login = (props) => {
   };
 
   const loginUser = (email, senha) => {
-    auth.login.login(email, senha);
+    let emailTrim = email.trim()
+    auth.login.login(emailTrim, senha);
     setShowError(true);
   };
   return (

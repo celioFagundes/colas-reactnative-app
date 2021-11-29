@@ -48,7 +48,8 @@ const NovoUser = (props) => {
   };
 
   const criarUsuario = (email,senha) =>{
-    auth.createUser.createUser(email, senha)
+    let emailTrim = email.trim()
+    auth.createUser.createUser(emailTrim, senha)
     setShowError(true)
   }
   return (
