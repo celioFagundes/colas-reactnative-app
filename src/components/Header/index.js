@@ -1,22 +1,69 @@
-import React, { useContext, useEffect } from "react";
-import { LogoutButton, LogoutLabel, User, Username, Wrapper } from "./style";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  CancelarButton,
+  CancelarLabel,
+  ConfirmarButton,
+  ConfirmarLabel,
+  ContainerBotoes,
+  LogoutModal,
+  Container,
+  LogoutMessage,
+  LogoutButton,
+  LogoutLabel,
+  ModalContainer,
+  User,
+  Username,
+  Wrapper,
+} from "./style";
 import { AuthContext } from "../../config/auth";
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+
 
 const Header = (props) => {
   const auth = useContext(AuthContext);
-
-  const onClickLogout = async () => {
-    await auth.logout();
+  const [modalVisivel, setModalVisivel] = useState(false);
   
+
+  const toggleModal = (bool) => {
+    setModalVisivel(bool);
+  };
+  const onClickLogout = async () => {
+    toggleModal(false)
+    await auth.logout();
   };
   return (
     <Wrapper>
       <User>
-        <Username>{auth. user && auth.user.email}</Username>
+        <FontAwesome name="user-circle" size={16} color="#6E99FF" />
+        <Username>{auth.user && auth.user.email.split("@")[0]}</Username>
       </User>
-      <LogoutButton onPress={onClickLogout}>
+      <LogoutButton onPress={() => toggleModal(true)}>
+        <MaterialIcons name="logout" size={16} color="black" />
         <LogoutLabel>Sair</LogoutLabel>
       </LogoutButton>
+
+      <LogoutModal
+        transparent = {true}
+        animationType="fade"
+        visible={modalVisivel}
+        onRequestClose={() => toggleModal(false)}
+      >
+        <ModalContainer>
+          <Container>
+            <LogoutMessage>Tem certeza que quer sair desta conta?</LogoutMessage>
+            <ContainerBotoes>
+              <ConfirmarButton onPress={onClickLogout}>
+                <ConfirmarLabel>Sair</ConfirmarLabel>
+              </ConfirmarButton>
+              <CancelarButton>
+                <CancelarLabel onPress={() => toggleModal(false)}>
+                  Cancelar
+                </CancelarLabel>
+              </CancelarButton>
+            </ContainerBotoes>
+          </Container>
+        </ModalContainer>
+      </LogoutModal>
     </Wrapper>
   );
 };

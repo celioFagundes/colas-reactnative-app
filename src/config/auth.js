@@ -49,6 +49,7 @@ const useGetUser = () => {
         setAuthFinalizou(true);
         setUser(null);
       }
+      
     });
   }, []);
   return [user, authFinalizou];

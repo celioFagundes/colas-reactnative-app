@@ -1,6 +1,6 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { BackHandler ,View} from "react-native";
+import { BackHandler, View } from "react-native";
 import Header from "./components/Header";
 import Home from "./screens/Home";
 import User from "./screens/User";
@@ -10,13 +10,11 @@ import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 const Tab = createBottomTabNavigator();
 
 const Navigation = () => {
-
   return (
-    <View style = {{flex: 1}}>
-      <Header/>
+    <View style={{ flex: 1 }}>
+      <Header />
       <Tab.Navigator
-      
-      initialRouteName ='Home'
+        initialRouteName="Home"
         screenOptions={{
           tabBarHideOnKeyboard: true,
           headerShown: false,

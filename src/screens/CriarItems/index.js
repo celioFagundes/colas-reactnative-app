@@ -70,7 +70,7 @@ const CriarItems = (props) => {
     topicos !== null && Object.keys(topicos).map((top) => {
       listaTopicos.push(topicos[top].topico);
     });
-    console.log(listaTopicos);
+
     if (novoTopico !== "") {
       if (topicos === null || !listaTopicos.includes(novoTopico)) {
         pushNovaData("/topicos/", { topico: novoTopico });
@@ -87,7 +87,6 @@ const CriarItems = (props) => {
     let listaSecoes = [];
      secoes !== null && Object.keys(secoes).map(sec =>{
       listaSecoes.push(secoes[sec].secao)
-      console.log(secoes[sec].secao)
       
     });
     if (novaSecao !== "" && selecionado !== "Selecione um tópico") {
