@@ -13,7 +13,7 @@ const Navigation = () => {
     <View style={{ flex: 1 }}>
       <Header />
       <Tab.Navigator
-        initialRouteName='Home'
+        initialRouteName='Criar'
         screenOptions={{
           tabBarHideOnKeyboard: true,
           headerShown: false,

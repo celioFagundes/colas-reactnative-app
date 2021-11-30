@@ -49,8 +49,6 @@ export const Pergunta = styled.TouchableOpacity`
 export const TextoPergunta = styled.Text`
   color: #fff;
   font-size: 18px;
-
-  text-transform: capitalize;
 `;
 export const BoxResposta = styled.View`
 height: ${props => props.expandido ? 'auto' : '0'};
@@ -64,7 +62,6 @@ export const Resposta = styled.TouchableOpacity`
 `;
 export const TextoResposta = styled.Text`
   font-size: 18px;
-  text-transform: capitalize;
   color: #000;
 `;
 
