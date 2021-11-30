@@ -32,6 +32,7 @@ const Home = (props) => {
   const refetchSecoes = (data, itemKey) => {
     topico === data ? setTopico(null) : setTopico(data);
     setTopicoKey(itemKey);
+    setSecao(null)
   };
   const refetchPerguntas = (data, itemKey) => {
     secao === data ? setSecao(null) : setSecao(data);

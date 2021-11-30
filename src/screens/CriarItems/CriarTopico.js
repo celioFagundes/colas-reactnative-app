@@ -16,8 +16,8 @@ const CriarTopico = ({ topicos, status, setStatus }) => {
       });
 
     if (novoTopico !== '') {
-      if (topicos === null || !listaTopicos.includes(novoTopico)) {
-        pushNovaData('/topicos/', { topico: novoTopico });
+      if (topicos === null || !listaTopicos.includes(novoTopico.toLocaleLowerCase())) {
+        pushNovaData('/topicos/', { topico: novoTopico.toLocaleLowerCase() });
         Keyboard.dismiss();
         setStatus({ tipo: 'topico', status: 'Tópico criado', code: 'sucesso' });
       } else {

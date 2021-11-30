@@ -32,16 +32,16 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
       Object.keys(secoes).map((sec) => {
         listaSecoes.push(secoes[sec].secao);
       });
-    if (novaSecao !== '' && selecionado !== 'Selecione um tópico') {
-      if (secoes === null || !listaSecoes.includes(novaSecao)) {
-        pushNovaData('/secoes/' + selecionado, { secao: novaSecao });
+    if (novaSecao !== '' && selecionado !== 'Tópico') {
+      if (secoes === null || !listaSecoes.includes(novaSecao.toLocaleLowerCase())) {
+        pushNovaData('/secoes/' + selecionado, { secao: novaSecao.toLocaleLowerCase() });
         Keyboard.dismiss();
         setStatus({ tipo: 'secao', status: 'Seção criada', code: 'sucesso' });
       } else {
         setStatus({ tipo: 'secao', status: 'A seção já existe', code: 'erro' });
       }
     } else {
-      selecionado === 'Selecione um tópico'
+      selecionado === 'Tópico'
         ? setStatus({
             tipo: 'secao',
             status: 'Seleciona um tópico',
