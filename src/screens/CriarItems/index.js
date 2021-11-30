@@ -95,7 +95,7 @@ const CriarItems = (props) => {
         Keyboard.dismiss();
         setStatusSecao({ status: "Seção criada", code: "sucesso" });
       } else {
-        setStatusSecao({ status: "A Seção já existe", code: "erro" });
+        setStatusSecao({ status: "A seção já existe", code: "erro" });
       }
     } else {
       selecionado === "Selecione um tópico"

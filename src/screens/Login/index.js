@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect, useCallback } from "react";
-import { useFocusEffect } from "@react-navigation/native";
-import { AuthContext } from "../../config/auth";
-import { View, Text, TextInput } from "react-native";
+import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { AuthContext } from '../../config/auth';
 import {
   Wrapper,
   Input,
@@ -10,16 +9,17 @@ import {
   NovaConta,
   Link,
   Error,
-} from "./style";
+} from './style';
+
 const Login = (props) => {
   const auth = useContext(AuthContext);
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
   const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     if (auth.user !== null) {
-      props.navigation.navigate("Loading");
+      props.navigation.navigate('Loading');
     }
   }, [auth.user]);
 
@@ -30,16 +30,17 @@ const Login = (props) => {
       };
     }, [])
   );
+
   const renderError = (error) => {
     switch (error) {
-      case "auth/invalid-email":
-        return "Digite um email válido";
-      case "auth/wrong-password":
-        return "Senha incorreta";
-      case "auth/user-not-found":
-        return "Usuario não encontrado";
+      case 'auth/invalid-email':
+        return 'Digite um email válido';
+      case 'auth/wrong-password':
+        return 'Senha incorreta';
+      case 'auth/user-not-found':
+        return 'Usuario não encontrado';
       default:
-        return "Digite um email e senha válidos";
+        return 'Digite um email e senha válidos';
     }
   };
 
@@ -48,20 +49,20 @@ const Login = (props) => {
     auth.login.login(emailTrim, senha);
     setShowError(true);
   };
+
   return (
-    <Wrapper colors={["#6E99FF", "#3772ff"]}>
-      <Text></Text>
+    <Wrapper colors={['#6E99FF', '#3772ff']}>
       <Input
-        autoCompleteType="off"
+        autoCompleteType='off'
         onChangeText={(text) => setEmail(text)}
         value={email}
-        placeholder="Digite seu email"
+        placeholder='Digite seu email'
       />
       <Input
-        autoCompleteType="off"
+        autoCompleteType='off'
         onChangeText={(text) => setSenha(text)}
         value={senha}
-        placeholder="Digite sua senha"
+        placeholder='Digite sua senha'
         secureTextEntry={true}
       />
       {auth.login.loginStatus !== null && showError && (
@@ -70,10 +71,9 @@ const Login = (props) => {
       <Button onPress={() => loginUser(email, senha)}>
         <ButtonTitle>Entrar</ButtonTitle>
       </Button>
-
       <NovaConta>
-        Não possui uma conta ?{" "}
-        <Link onPress={() => props.navigation.navigate("NovoUser")}>
+        Não possui uma conta ?
+        <Link onPress={() => props.navigation.navigate('NovoUser')}>
           Criar uma conta
         </Link>
       </NovaConta>

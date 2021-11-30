@@ -1,66 +1,68 @@
-import React, { useState, useRef, useEffect , useContext} from "react";
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useDatabase, useDatabaseRemove } from '../../config/database';
+import ListaPerguntas from './ListaPerguntas';
+import { AuthContext } from '../../config/auth';
+import { FlatList } from 'react-native';
 import {
-  ScrollContainer,
   Wrapper,
+  ScrollContainer,
   Container,
   Tab,
+  Excluir,
   Button,
   ButtonTitle,
-} from "../../styles/styles";
-import ListaPerguntas from "./ListaPerguntas";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-
-import { useDatabase, useDatabaseRemove } from "../../config/database";
-import { Excluir } from "./styles";
-import { AuthContext } from "../../config/auth";
+  Placeholder,
+} from './styles';
 
 const Home = (props) => {
-  const auth = useContext(AuthContext)
+  const auth = useContext(AuthContext);
+
   const [topico, setTopico] = useState(null);
-  const [topicoKey, setTopicoKey] = useState(null)
+  const [topicoKey, setTopicoKey] = useState(null);
   const [secao, setSecao] = useState(null);
   const [secaoKey, setSecaoKey] = useState(null);
 
-  const data = useDatabase("/topicos/");
-  const dataSecoes = useDatabase("/secoes/" + topico);
-  const dataPerguntas = useDatabase("/perguntas/" + topico + "/" + secao);
+  const data = useDatabase('/topicos/');
+  const dataSecoes = useDatabase('/secoes/' + topico);
+  const dataPerguntas = useDatabase('/perguntas/' + topico + '/' + secao);
   const remove = useDatabaseRemove();
+
   const dataRef = useRef(null);
 
   const refetchSecoes = (data, itemKey) => {
     topico === data ? setTopico(null) : setTopico(data);
-    setTopicoKey(itemKey)
+    setTopicoKey(itemKey);
   };
   const refetchPerguntas = (data, itemKey) => {
     secao === data ? setSecao(null) : setSecao(data);
-    setSecaoKey(itemKey)
+    setSecaoKey(itemKey);
   };
 
   const excluirTopico = () => {
-    remove("/topicos/" + topicoKey);
-    remove("/secoes/" + '/' + topico );
-    remove("/perguntas/" + '/' + topico );
+    remove('/topicos/' + topicoKey);
+    remove('/secoes/' + '/' + topico);
+    remove('/perguntas/' + '/' + topico);
     setTopico(null);
     setTopicoKey(null);
   };
   const excluirSecao = () => {
-    remove("/secoes/" + '/' + topico + '/' + secaoKey);
-    remove("/perguntas/" + '/' + topico + '/' + secao);
+    remove('/secoes/' + '/' + topico + '/' + secaoKey);
+    remove('/perguntas/' + '/' + topico + '/' + secao);
     setSecao(null);
     setSecaoKey(null);
   };
-  
+
   useEffect(() => {
-    if(auth.loading && auth.user === null){
-        props.navigation.navigate("Loading");
+    if (auth.loading && auth.user === null) {
+      props.navigation.navigate('Loading');
     }
-  }, [auth.user])
+  }, [auth.user]);
+
   return (
     <Wrapper>
       <ScrollContainer>
         <Container>
           <Tab>Tópicos</Tab>
-
           {data && Object.keys(data).length > 0 ? (
             <FlatList
               data={Object.keys(data)}
@@ -71,7 +73,6 @@ const Home = (props) => {
                   selecionado={topico === data[item].topico ? true : false}
                 >
                   <ButtonTitle>{data[item].topico}</ButtonTitle>
-
                 </Button>
               )}
               horizontal
@@ -81,7 +82,7 @@ const Home = (props) => {
               style={{ marginTop: 15 }}
             />
           ) : (
-            <Text>Sem tópicos</Text>
+            <Placeholder>Sem tópicos</Placeholder>
           )}
           {topico !== null && (
             <Excluir onPress={excluirTopico}>Excluir tópico</Excluir>
@@ -89,7 +90,7 @@ const Home = (props) => {
         </Container>
         <Container>
           <Tab>Secões</Tab>
-          {dataSecoes && topico !== ''? (
+          {dataSecoes && topico !== '' ? (
             <FlatList
               data={Object.keys(dataSecoes)}
               renderItem={({ item }) => (
@@ -108,14 +109,15 @@ const Home = (props) => {
               style={{ marginTop: 15 }}
             />
           ) : (
-            <Text>{topico === "" ? "Selecione um tópico" : "Sem secões"}</Text>
+            <Placeholder>
+              {topico === '' ? 'Selecione um tópico' : 'Sem secões'}
+            </Placeholder>
           )}
           {secao !== null && (
             <Excluir onPress={excluirSecao}>Excluir seção</Excluir>
           )}
         </Container>
-      
-        <ListaPerguntas data = {dataPerguntas} topico = {topico} secao = {secao}/>
+        <ListaPerguntas data={dataPerguntas} topico={topico} secao={secao} />
       </ScrollContainer>
     </Wrapper>
   );

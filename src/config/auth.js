@@ -1,12 +1,12 @@
-import React, { createContext, useEffect, useState } from "react";
-import firebase from "./firebase";
+import React, { createContext, useEffect, useState } from 'react';
+import firebase from './firebase';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
-} from "firebase/auth";
+} from 'firebase/auth';
 export const AuthContext = createContext();
 const auth = getAuth();
 
@@ -17,7 +17,7 @@ const useCreateUser = () => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredencial) => {
         const user = userCredencial.user;
-        setStatus({ sucess: "ok", error: null });
+        setStatus({ sucess: 'ok', error: null });
       })
       .catch((error) => {
         setStatus({ sucess: null, error: error });
