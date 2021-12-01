@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "minhas-colas",
-    "slug": "minhas-colas",
+    "name": "Colas App",
+    "slug": "colas-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
     "splash": {
       "image": "./src/assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -20,6 +20,8 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.colasapp.colas_app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

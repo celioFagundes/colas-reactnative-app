@@ -140,11 +140,13 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
         onChangeText={onChange('pergunta')}
         value={pergunta.pergunta}
         placeholder='Escreva uma pergunta'
+        multiline = {true}
       />
       <Input
         onChangeText={onChange('resposta')}
         value={pergunta.resposta}
         placeholder='Escreva uma resposta'
+        multiline = {true}
       />
       {status.tipo === 'pergunta' && <CriarStatus status={status} />}
       <Button onPress={savePergunta}>
