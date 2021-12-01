@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Colas App",
-    "slug": "colas-app",
+    "name": "Colinhas",
+    "slug": "colinhas",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/icon.png",
@@ -20,7 +20,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.colasapp.colas_app",
+      "package": "com.colinhasapp.colinhas_app",
       "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/adaptive-icon.png",
