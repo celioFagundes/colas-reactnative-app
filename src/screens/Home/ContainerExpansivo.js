@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDatabaseRemove, useDatabaseUpdate } from '../../config/database';
 import { Modal } from 'react-native';
-import { Octicons } from '@expo/vector-icons';
+import { Octicons, MaterialIcons } from '@expo/vector-icons';
 import {
   BoxPergunta,
   Pergunta,
@@ -18,8 +18,6 @@ import {
   Input,
   BoxBotoes,
   Botao,
-  Confirmar,
-  Cancelar,
   ExcluirMensagem,
   Tab,
   BotaoLabel,
@@ -71,12 +69,12 @@ const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao }) => {
           <TextoResposta>{item.resposta}</TextoResposta>
         </Resposta>
         <Acoes>
-          <Editar onPress={() => setModalEditVisivel(true)}>Editar</Editar>
+          <Editar onPress={() => setModalEditVisivel(true)}><MaterialIcons name="edit" size={22} color="#3772ff" /></Editar>
           <Excluir onPress={() => setModalExcluirVisivel(true)}>
-            Excluir{' '}
+          <MaterialIcons name="delete" size={22} color="#3772ff" />
           </Excluir>
         </Acoes>
-        <Modal visible={modalEditVisivel} transparent={true}>
+        <Modal visible={modalEditVisivel} transparent = {true} animationType = 'fade'>
           <ModalContainer onPress = {() => setModalEditVisivel(false)}>
             <ModalBox>
               <Tab>Pergunta</Tab>
@@ -93,23 +91,35 @@ const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao }) => {
               />
               <BoxBotoes>
                 <Botao onPress={() => editarPergunta(id)}>
-                  <Octicons name='check' size={18} color='black' />
+                  <Octicons name='check' size={18} color='#fff' />
                   <BotaoLabel>Editar</BotaoLabel>
                 </Botao>
                 <Botao onPress={() => setModalEditVisivel(false)}>
-                  <Octicons name='x' size={18} color='black' />
+                  <Octicons name='x' size={14} color='#fff' />
                   <BotaoLabel>Cancelar</BotaoLabel>
                 </Botao>
               </BoxBotoes>
             </ModalBox>
           </ModalContainer>
         </Modal>
-        <Modal visible={modalExcluirVisivel}>
-          <ExcluirMensagem>
-            Tem certeza que quer excluir esta pergunta?
-          </ExcluirMensagem>
-          <Confirmar title='Sim' onPress={() => excluirPergunta(id)} />
-          <Cancelar title='Não' onPress={() => setModalExcluirVisivel(false)} />
+        <Modal visible={modalExcluirVisivel} transparent = {true} animationType = 'fade'>
+          <ModalContainer>
+            <ModalBox>
+              <ExcluirMensagem>
+                Tem certeza que quer excluir esta pergunta?
+              </ExcluirMensagem>
+              <BoxBotoes>
+                <Botao onPress={() => excluirPergunta(id)}>
+                  <Octicons name='check' size={18} color='#fff' />
+                  <BotaoLabel>Sim</BotaoLabel>
+                </Botao>
+                <Botao  onPress={() => setModalExcluirVisivel(false)} >
+                  <Octicons name='x' size={14} color='#fff' />
+                  <BotaoLabel>Não</BotaoLabel>
+                </Botao>
+              </BoxBotoes>
+            </ModalBox>
+          </ModalContainer>
         </Modal>
       </BoxResposta>
     </BoxPergunta>

@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
 const windowWidth = Dimensions.get('window').width - 30 + 'px';
-const windowHeight = Dimensions.get('window').height / 2 + 'px';
+const windowHeight = Dimensions.get('window').height / 4 + 'px';
 
 export const Wrapper = styled.View`
   flex: 1;
@@ -77,22 +77,26 @@ export const Acoes = styled.View`
   align-self: flex-end;
 `;
 
-export const Excluir = styled.Text`
-  color: #ff5154;
-  margin-left: 10px;
+export const Excluir = styled.TouchableOpacity`
+  margin: 10px;
+  margin-right:0px;
 `;
-export const Editar = styled.Text`
-  color: #3772ff;
+export const Editar = styled.TouchableOpacity`
+  margin: 10px;
+  margin-right:0px;
 `;
 export const ModalContainer = styled.TouchableOpacity`
   flex: 1;
   align-items: center;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 export const ModalBox = styled.View`
+  min-height: ${windowHeight};
   height: auto;
   width: ${windowWidth};
-  padding:20px;
+  justify-content: center;
+  padding: 20px;
   background-color: #f8f9fb;
   border-radius: 5px;
   border-top-width: 0.5px;
@@ -102,6 +106,9 @@ export const ModalBox = styled.View`
   border-color: rgba(0, 0, 0, 0.1);
 `;
 export const ExcluirMensagem = styled.Text`
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-align: center;
 `;
 
 export const Input = styled.TextInput`
@@ -119,20 +126,22 @@ export const Input = styled.TextInput`
 `;
 export const BoxBotoes = styled.View`
   flex-direction: row;
-  width:100%;
-  align-items : center;
-  justify-content: space-between;
-  align-self:center;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  align-self: center;
 `;
 export const Botao = styled.TouchableOpacity`
-  flex-direction:row;
-  align-items:center;
-
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
 `;
 export const BotaoLabel = styled.Text`
-font-size:18px;
-  margin-left:5px;
+  color: #fff;
+  font-size: 18px;
+  margin-left: 5px;
 `;
-
-export const Confirmar = styled.Button``;
-export const Cancelar = styled.Button``;

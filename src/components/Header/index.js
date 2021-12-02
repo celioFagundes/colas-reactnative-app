@@ -12,10 +12,8 @@ import {
   Container,
   LogoutMessage,
   ContainerBotoes,
-  ConfirmarButton,
-  ConfirmarLabel,
-  CancelarButton,
-  CancelarLabel,
+  Button,
+  Label,
 } from "./style";
 
 const Header = (props) => {
@@ -53,14 +51,14 @@ const Header = (props) => {
               Tem certeza que quer sair desta conta?
             </LogoutMessage>
             <ContainerBotoes>
-              <ConfirmarButton onPress={onClickLogout}>
-                <ConfirmarLabel>Sair</ConfirmarLabel>
-              </ConfirmarButton>
-              <CancelarButton>
-                <CancelarLabel onPress={() => toggleModal(false)}>
+              <Button onPress={onClickLogout}>
+                <Label>Sair</Label>
+              </Button>
+              <Button>
+                <Label onPress={() => toggleModal(false)}>
                   Cancelar
-                </CancelarLabel>
-              </CancelarButton>
+                </Label>
+              </Button>
             </ContainerBotoes>
           </Container>
         </ModalContainer>

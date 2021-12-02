@@ -1,8 +1,8 @@
-import styled from "styled-components/native";
-import { Dimensions } from "react-native";
+import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
 
-const windowWidth = Dimensions.get("window").width - 30 + "px";
-const windowHeight = Dimensions.get("window").height / 4 + "px";
+const windowWidth = Dimensions.get('window').width - 30 + 'px';
+const windowHeight = Dimensions.get('window').height / 4 + 'px';
 
 export const Wrapper = styled.View`
   flex-direction: row;
@@ -11,7 +11,6 @@ export const Wrapper = styled.View`
   height: 30px;
   padding: 0 20px;
   background-color: #fff;
-  
 `;
 export const User = styled.View`
   flex-direction: row;
@@ -39,6 +38,7 @@ export const ModalContainer = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 export const Container = styled.View`
   align-items: center;
@@ -51,41 +51,29 @@ export const Container = styled.View`
   border-right-width: 0.5px;
   border-bottom-width: 2px;
   border-color: rgba(0, 0, 0, 0.1);
-  background-color: #6e99ff;
+  background-color: #f8f9fb;
 `;
 export const LogoutMessage = styled.Text`
-  color: #fff;
+  font-size: 18px;
+  color: #000;
 `;
 export const ContainerBotoes = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-top:10px;
+  margin-top: 10px;
 `;
-export const CancelarButton = styled.TouchableOpacity`
+export const Button = styled.TouchableOpacity`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width:80px;
-  padding: 5px 10px;
-  margin-left: 15px;
+  padding: 8px 15px;
   border-radius: 8px;
-  background-color: #FF5154;
+  margin: 5px;
+  background-color: rgba(0, 0, 0, 0.8);
 `;
-export const CancelarLabel = styled.Text`
+export const Label = styled.Text`
+  font-size: 18px;
   margin-left: 4px;
   color: #fff;
-`;
-export const ConfirmarButton = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width:80px;
-  padding: 5px 10px;
-  border-radius: 8px;
-  background-color: #f8f9fb;
-`;
-export const ConfirmarLabel = styled.Text`
-  margin-left: 4px;
-  color: #000;
 `;

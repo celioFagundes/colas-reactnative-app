@@ -1,8 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Octicons, MaterialIcons } from '@expo/vector-icons';
 import { useDatabase, useDatabaseRemove } from '../../config/database';
 import ListaPerguntas from './ListaPerguntas';
 import { AuthContext } from '../../config/auth';
 import { FlatList } from 'react-native';
+import { Modal } from 'react-native';
 import {
   Wrapper,
   ScrollContainer,
@@ -12,6 +14,12 @@ import {
   Button,
   ButtonTitle,
   Placeholder,
+  ModalContainer,
+  ModalBox,
+  ExcluirMensagem,
+  BoxBotoes,
+  Botao,
+  BotaoLabel,
 } from './styles';
 
 const Home = (props) => {
@@ -21,18 +29,18 @@ const Home = (props) => {
   const [topicoKey, setTopicoKey] = useState(null);
   const [secao, setSecao] = useState(null);
   const [secaoKey, setSecaoKey] = useState(null);
-
+  const [modalExcluirTopico, setModalExcluirTopico] = useState(false);
+  const [modalExcluirSecao, setModalExcluirSecao] = useState(false);
+  
   const data = useDatabase('/topicos/');
   const dataSecoes = useDatabase('/secoes/' + topico);
   const dataPerguntas = useDatabase('/perguntas/' + topico + '/' + secao);
   const remove = useDatabaseRemove();
 
-  const dataRef = useRef(null);
-
   const refetchSecoes = (data, itemKey) => {
     topico === data ? setTopico(null) : setTopico(data);
     setTopicoKey(itemKey);
-    setSecao(null)
+    setSecao(null);
   };
   const refetchPerguntas = (data, itemKey) => {
     secao === data ? setSecao(null) : setSecao(data);
@@ -45,12 +53,14 @@ const Home = (props) => {
     remove('/perguntas/' + '/' + topico);
     setTopico(null);
     setTopicoKey(null);
+    setModalExcluirTopico(false);
   };
   const excluirSecao = () => {
     remove('/secoes/' + '/' + topico + '/' + secaoKey);
     remove('/perguntas/' + '/' + topico + '/' + secao);
     setSecao(null);
     setSecaoKey(null);
+    setModalExcluirSecao(false);
   };
 
   useEffect(() => {
@@ -79,14 +89,15 @@ const Home = (props) => {
               horizontal
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item}
-              ref={dataRef}
               style={{ marginTop: 15 }}
             />
           ) : (
             <Placeholder>Sem tópicos</Placeholder>
           )}
           {topico !== null && (
-            <Excluir onPress={excluirTopico}>Excluir tópico</Excluir>
+            <Excluir onPress={() => setModalExcluirTopico(true)}>
+              <MaterialIcons name='delete' size={22} color='#3772ff' />
+            </Excluir>
           )}
         </Container>
         <Container>
@@ -106,7 +117,6 @@ const Home = (props) => {
               keyExtractor={(item) => item}
               horizontal
               showsHorizontalScrollIndicator={false}
-              ref={dataRef}
               style={{ marginTop: 15 }}
             />
           ) : (
@@ -115,9 +125,60 @@ const Home = (props) => {
             </Placeholder>
           )}
           {secao !== null && (
-            <Excluir onPress={excluirSecao}>Excluir seção</Excluir>
+            <Excluir onPress={() => setModalExcluirSecao(true)}>
+              <MaterialIcons name='delete' size={22} color='#3772ff' />
+            </Excluir>
           )}
         </Container>
+        <Modal
+          visible={modalExcluirTopico}
+          transparent={true}
+          animationType='fade'
+        >
+          <ModalContainer>
+            <ModalBox>
+              <ExcluirMensagem>
+                Tem certeza que quer excluir este tópico? As seções e perguntas
+                deste topico tambem serão excluidas
+              </ExcluirMensagem>
+              <BoxBotoes>
+                <Botao onPress={excluirTopico}>
+                  <Octicons name='check' size={18} color='#fff' />
+                  <BotaoLabel>Sim</BotaoLabel>
+                </Botao>
+                <Botao onPress={() => setModalExcluirTopico(false)}>
+                  <Octicons name='x' size={14} color='#fff' />
+                  <BotaoLabel>Não</BotaoLabel>
+                </Botao>
+              </BoxBotoes>
+            </ModalBox>
+          </ModalContainer>
+        </Modal>
+        <Modal
+          visible={modalExcluirSecao}
+          transparent={true}
+          animationType='fade'
+        >
+          <ModalContainer>
+            <ModalBox>
+              <ExcluirMensagem>
+                Tem certeza que quer excluir esta seção? As perguntas desta
+                seção tambem serão excluidas
+              </ExcluirMensagem>
+              <BoxBotoes>
+                <Botao onPress={excluirSecao}>
+                  <Octicons name='check' size={18} color='#fff' />
+                  <BotaoLabel>Sim</BotaoLabel>
+                </Botao>
+                <Botao onPress={() => setModalExcluirSecao(false)}>
+                  <Octicons name='x' size={14} color='#fff' />
+                  <BotaoLabel>Não</BotaoLabel>
+                </Botao>
+              </BoxBotoes>
+            </ModalBox>
+          </ModalContainer>
+        </Modal>
+
         <ListaPerguntas data={dataPerguntas} topico={topico} secao={secao} />
       </ScrollContainer>
     </Wrapper>
