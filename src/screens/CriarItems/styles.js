@@ -1,7 +1,9 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
+
 const windowWidth = Dimensions.get('window').width - 30 + 'px';
 const windowHeight = Dimensions.get('window').height / 2 + 'px';
+
 export const Wrapper = styled.View`
   flex: 1;
   background-color: #fff;

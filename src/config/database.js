@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import firebase from './firebase';
-import { getDatabase, ref, onValue, set, push,remove } from '@firebase/database';
+import { getDatabase, ref, onValue, set, push,remove, update } from '@firebase/database';
 import { AuthContext } from './auth';
 
 const database = getDatabase(firebase);
@@ -44,3 +44,14 @@ export const useDatabaseRemove = () =>{
   }
   return removeItem
 }
+
+export const useDatabaseUpdate = () => {
+  const [status, setStatus] = useState('');
+  const auth = useContext(AuthContext)
+  const atualizar = (endpoint, data) => {
+    const user = auth.user.uid
+    const dataRef = ref(database, user + endpoint);
+    update(dataRef, data);
+  };
+  return [status, atualizar];
+};

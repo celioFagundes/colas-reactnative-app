@@ -1,4 +1,7 @@
 import styled from 'styled-components/native';
+import { Dimensions } from 'react-native';
+const windowWidth = Dimensions.get('window').width - 30 + 'px';
+const windowHeight = Dimensions.get('window').height / 2 + 'px';
 
 export const Wrapper = styled.View`
   flex: 1;
@@ -29,9 +32,7 @@ export const PerguntasHeader = styled.View`
 
 export const ToggleSelect = styled.TouchableOpacity``;
 
-export const Lista = styled.View`
-  
-`;
+export const Lista = styled.View``;
 export const IconsContainer = styled.View`
   flex-direction: row;
 `;
@@ -43,16 +44,16 @@ export const Pergunta = styled.TouchableOpacity`
   padding: 20px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
-  border-bottom-right-radius: ${(props) => (props.expandido ? "0px" : "8px")};
-  border-bottom-left-radius: ${(props) => (props.expandido ? "0px" : "8px")};
+  border-bottom-right-radius: ${(props) => (props.expandido ? '0px' : '8px')};
+  border-bottom-left-radius: ${(props) => (props.expandido ? '0px' : '8px')};
 `;
 export const TextoPergunta = styled.Text`
   color: #fff;
   font-size: 18px;
 `;
 export const BoxResposta = styled.View`
-height: ${props => props.expandido ? 'auto' : '0'};
-  overflow:hidden;
+  height: ${(props) => (props.expandido ? 'auto' : '0')};
+  overflow: hidden;
 `;
 export const Resposta = styled.TouchableOpacity`
   background-color: #b5cbff;
@@ -70,7 +71,68 @@ export const IconArrow = styled.View`
   top: 20px;
   right: 10px;
 `;
-export const Excluir = styled.Text`
-  color : #FF5154;
-  align-self:flex-end;
+export const Acoes = styled.View`
+  flex-direction: row;
+  align-items: center;
+  align-self: flex-end;
 `;
+
+export const Excluir = styled.Text`
+  color: #ff5154;
+  margin-left: 10px;
+`;
+export const Editar = styled.Text`
+  color: #3772ff;
+`;
+export const ModalContainer = styled.TouchableOpacity`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+export const ModalBox = styled.View`
+  height: auto;
+  width: ${windowWidth};
+  padding:20px;
+  background-color: #f8f9fb;
+  border-radius: 5px;
+  border-top-width: 0.5px;
+  border-left-width: 0.5px;
+  border-right-width: 1px;
+  border-bottom-width: 2px;
+  border-color: rgba(0, 0, 0, 0.1);
+`;
+export const ExcluirMensagem = styled.Text`
+`;
+
+export const Input = styled.TextInput`
+  padding: 10px;
+  font-size: 18px;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 5px 0;
+  border-top-width: 0.5px;
+  border-left-width: 0.5px;
+  border-right-width: 1px;
+  border-bottom-width: 2px;
+  border-color: rgba(0, 0, 0, 0.1);
+`;
+export const BoxBotoes = styled.View`
+  flex-direction: row;
+  width:100%;
+  align-items : center;
+  justify-content: space-between;
+  align-self:center;
+`;
+export const Botao = styled.TouchableOpacity`
+  flex-direction:row;
+  align-items:center;
+
+`;
+export const BotaoLabel = styled.Text`
+font-size:18px;
+  margin-left:5px;
+`;
+
+export const Confirmar = styled.Button``;
+export const Cancelar = styled.Button``;
