@@ -27,14 +27,24 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
     setSelecionado(option);
   };
   const saveSecao = () => {
+    const invalidCharacters = ['.', '#', '$', '[', ']', '/'];
     let listaSecoes = [];
     secoes !== null &&
       Object.keys(secoes).map((sec) => {
         listaSecoes.push(secoes[sec].secao);
       });
-    if (novaSecao !== '' && selecionado !== 'Tópico') {
-      if (secoes === null || !listaSecoes.includes(novaSecao.toLocaleLowerCase())) {
-        pushNovaData('/secoes/' + selecionado, { secao: novaSecao.toLocaleLowerCase() });
+    if (
+      novaSecao.trim() !== '' &&
+      selecionado !== 'Tópico' &&
+      !invalidCharacters.some((el) => novaSecao.includes(el))
+    ) {
+      if (
+        secoes === null ||
+        !listaSecoes.includes(novaSecao.toLocaleLowerCase())
+      ) {
+        pushNovaData('/secoes/' + selecionado, {
+          secao: novaSecao.toLocaleLowerCase(),
+        });
         Keyboard.dismiss();
         setStatus({ tipo: 'secao', status: 'Seção criada', code: 'sucesso' });
       } else {
@@ -49,7 +59,7 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
           })
         : setStatus({
             tipo: 'secao',
-            status: 'Digite um nome válido',
+            status: 'Valor inválido ou possui ".", "#", "$", "[","]", "/")',
             code: 'erro',
           });
     }

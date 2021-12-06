@@ -9,13 +9,14 @@ const CriarTopico = ({ topicos, status, setStatus }) => {
   const [dataStatus, pushNovaData] = useDatabasePush();
 
   const saveTopico = () => {
+    const invalidCharacters  = [".", "#", "$", "[","]", "/",]
     let listaTopicos = [];
     topicos !== null &&
       Object.keys(topicos).map((top) => {
         listaTopicos.push(topicos[top].topico);
       });
 
-    if (novoTopico !== '') {
+    if (novoTopico.trim() !== '' &&  !invalidCharacters.some(el => novoTopico.includes(el))) {
       if (topicos === null || !listaTopicos.includes(novoTopico.toLocaleLowerCase())) {
         pushNovaData('/topicos/', { topico: novoTopico.toLocaleLowerCase() });
         Keyboard.dismiss();
@@ -30,7 +31,7 @@ const CriarTopico = ({ topicos, status, setStatus }) => {
     } else {
       setStatus({
         tipo: 'topico',
-        status: 'Digite um nome válido',
+        status: 'Valor inválido ou possui ".", "#", "$", "[","]", "/")',
         code: 'erro',
       });
     }
