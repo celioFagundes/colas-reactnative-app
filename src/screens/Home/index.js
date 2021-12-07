@@ -138,7 +138,7 @@ const Home = (props) => {
           <ModalContainer>
             <ModalBox>
               <ExcluirMensagem>
-                Tem certeza que quer excluir este tópico? As seções e perguntas
+                Tem certeza que quer excluir o tópico {topico}? As seções e perguntas
                 deste topico tambem serão excluidas
               </ExcluirMensagem>
               <BoxBotoes>
@@ -162,7 +162,7 @@ const Home = (props) => {
           <ModalContainer>
             <ModalBox>
               <ExcluirMensagem>
-                Tem certeza que quer excluir esta seção? As perguntas desta
+                Tem certeza que quer excluir a seção {secao}? As perguntas desta
                 seção tambem serão excluidas
               </ExcluirMensagem>
               <BoxBotoes>

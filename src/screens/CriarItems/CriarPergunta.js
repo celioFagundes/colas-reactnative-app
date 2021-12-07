@@ -24,13 +24,6 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
   const secoes = useDatabase('/secoes/' + topicoSelecionado);
   const [dataStatus, pushNovaData] = useDatabasePush();
 
-  const onChange = (field) => (text) =>{
-
-    setPergunta({
-      ...pergunta,
-      [field]: text,
-    });
-  };
   const savePergunta = () => {
     if (
       topicoSelecionado !== 'Tópico' &&
@@ -63,19 +56,15 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
       }
     }
   };
-  const toggleModalSecao = (bool) => {
-    setModalSecaoVisivel(bool);
-  };
-  const toggleModalTopico = (bool) => {
-    setModalTopicoVisivel(bool);
-  };
 
-  const trocarSecao = (option) => {
-    setSecaoSelecionada(option);
+  const onChange = (field) => (text) => {
+    setPergunta({
+      ...pergunta,
+      [field]: text,
+    });
   };
-  const trocarTopico = (option) => {
-    setTopicoSelecionado(option);
-  };
+  
+  const toggleModal = (func, bool) => func(bool)
 
   const resetSecao = () => {
     setSecaoSelecionada('Seção');
@@ -84,7 +73,7 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
     <Container>
       <Tab>Criar uma nova pergunta</Tab>
       <ContainerModais>
-        <ModalSelect onPress={() => toggleModalTopico(true)}>
+        <ModalSelect onPress={() => toggleModal(setModalTopicoVisivel, true)}>
           <ModalText
             color={
               topicoSelecionado !== 'Tópico'
@@ -100,17 +89,17 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
           transparent={true}
           animationType='fade'
           visible={modalTopicoVisivel}
-          onRequestClose={() => toggleModalTopico(false)}
+          onRequestClose={() => toggleModal(setModalTopicoVisivel, false)}
         >
           <ModalPicker
-            toggleModal={toggleModalTopico}
-            setData={trocarTopico}
+            toggleModal={setModalTopicoVisivel}
+            setData={setTopicoSelecionado}
             lista={topicos}
             reset={true}
             resetSecao={resetSecao}
           />
         </Modal>
-        <ModalSelect onPress={() => toggleModalSecao(true)}>
+        <ModalSelect onPress={() => toggleModal(setModalSecaoVisivel, true)}>
           <ModalText
             color={
               secaoSelecionada !== 'Seção'
@@ -126,11 +115,11 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
           transparent={true}
           animationType='fade'
           visible={modalSecaoVisivel}
-          onRequestClose={() => toggleModalSecao(false)}
+          onRequestClose={() => toggleModal(setModalSecaoVisivel, false)}
         >
           <ModalPicker
-            toggleModal={toggleModalSecao}
-            setData={trocarSecao}
+            toggleModal={setModalSecaoVisivel}
+            setData={setSecaoSelecionada}
             lista={secoes && Object.values(secoes)}
             isSecao={true}
           />
@@ -140,13 +129,13 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
         onChangeText={onChange('pergunta')}
         value={pergunta.pergunta}
         placeholder='Escreva uma pergunta'
-        multiline = {true}
+        multiline={true}
       />
       <Input
         onChangeText={onChange('resposta')}
         value={pergunta.resposta}
         placeholder='Escreva uma resposta'
-        multiline = {true}
+        multiline={true}
       />
       {status.tipo === 'pergunta' && <CriarStatus status={status} />}
       <Button onPress={savePergunta}>

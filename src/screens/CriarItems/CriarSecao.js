@@ -20,12 +20,6 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
   const secoes = useDatabase('/secoes/' + selecionado);
   const [dataStatus, pushNovaData] = useDatabasePush();
 
-  const toggleModal = (bool) => {
-    setModalVisivel(bool);
-  };
-  const selecionarTopico = (option) => {
-    setSelecionado(option);
-  };
   const saveSecao = () => {
     const invalidCharacters = ['.', '#', '$', '[', ']', '/'];
     let listaSecoes = [];
@@ -67,7 +61,7 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
   return (
     <Container>
       <Tab>Criar uma nova seção</Tab>
-      <ModalSelect onPress={() => toggleModal(true)}>
+      <ModalSelect onPress={() => setModalVisivel(true)}>
         <ModalText
           color={
             selecionado !== 'Tópico' ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.3)'
@@ -81,11 +75,11 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
         transparent={true}
         animationType='fade'
         visible={modalVisivel}
-        onRequestClose={() => toggleModal(false)}
+        onRequestClose={() => setModalVisivel(false)}
       >
         <ModalPicker
-          toggleModal={toggleModal}
-          setData={selecionarTopico}
+          toggleModal={setModalVisivel}
+          setData={setSelecionado}
           lista={topicos}
         />
       </Modal>
