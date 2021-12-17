@@ -9,7 +9,7 @@ import {
   BoxResposta,
   Resposta,
   TextoResposta,
-  IconArrow,
+  Icon,
   Acoes,
   ModalContainer,
   ModalBox,
@@ -21,9 +21,19 @@ import {
   ExcluirMensagem,
   Tab,
   BotaoLabel,
+  
 } from './styleListaPerguntas.js';
 
-const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao, onLongPress }) => {
+const ContainerExpansivo = ({
+  item,
+  onClickFunction,
+  id,
+  topico,
+  secao,
+  onLongPress,
+  selecionada,
+  selecionando,
+}) => {
   const [pergunta, setPergunta] = useState({
     pergunta: item.pergunta,
     resposta: item.resposta,
@@ -54,28 +64,53 @@ const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao, onLongPr
 
   return (
     <BoxPergunta>
-      <Pergunta onPress={onClickFunction} expandido={item.expandido} onLongPress= {() => onLongPress(id)}>
+      <Pergunta
+        onPress={onClickFunction}
+        expandido={item.expandido}
+        onLongPress={() => onLongPress(id)}
+        selecionada={selecionada}
+      >
         <TextoPergunta>{item.pergunta}</TextoPergunta>
-        <IconArrow>
-          {item.expandido ? (
-            <Octicons name='arrow-small-up' size={24} color='#fff' />
-          ) : (
-            <Octicons name='arrow-small-down' size={28} color='#fff' />
-          )}
-        </IconArrow>
+        {!selecionando ? 
+          <Icon>
+            {item.expandido ? (
+              <Octicons name='arrow-small-up' size={24} color='#fff' />
+            ) : (
+              <Octicons name='arrow-small-down' size={28} color='#fff' />
+            )}
+          </Icon>
+         : 
+          <Icon>
+            {selecionada ? (
+              <MaterialIcons name='check-circle' size={24} color='#fff' />
+            ) : (
+              <MaterialIcons
+                name='radio-button-unchecked'
+                size={24}
+                color='#fff'
+              />
+            )}
+          </Icon>
+        }
       </Pergunta>
       <BoxResposta expandido={item.expandido}>
         <Resposta>
           <TextoResposta>{item.resposta}</TextoResposta>
         </Resposta>
         <Acoes>
-          <Editar onPress={() => setModalEditVisivel(true)}><MaterialIcons name="edit" size={22} color="#3772ff" /></Editar>
+          <Editar onPress={() => setModalEditVisivel(true)}>
+            <MaterialIcons name='edit' size={22} color='#3772ff' />
+          </Editar>
           <Excluir onPress={() => setModalExcluirVisivel(true)}>
-          <MaterialIcons name="delete" size={22} color="#3772ff" />
+            <MaterialIcons name='delete' size={22} color='#3772ff' />
           </Excluir>
         </Acoes>
-        <Modal visible={modalEditVisivel} transparent = {true} animationType = 'fade'>
-          <ModalContainer onPress = {() => setModalEditVisivel(false)}>
+        <Modal
+          visible={modalEditVisivel}
+          transparent={true}
+          animationType='fade'
+        >
+          <ModalContainer onPress={() => setModalEditVisivel(false)}>
             <ModalBox>
               <Tab>Pergunta</Tab>
               <Input
@@ -102,7 +137,11 @@ const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao, onLongPr
             </ModalBox>
           </ModalContainer>
         </Modal>
-        <Modal visible={modalExcluirVisivel} transparent = {true} animationType = 'fade'>
+        <Modal
+          visible={modalExcluirVisivel}
+          transparent={true}
+          animationType='fade'
+        >
           <ModalContainer>
             <ModalBox>
               <ExcluirMensagem>
@@ -113,7 +152,7 @@ const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao, onLongPr
                   <Octicons name='check' size={18} color='#fff' />
                   <BotaoLabel>Sim</BotaoLabel>
                 </Botao>
-                <Botao  onPress={() => setModalExcluirVisivel(false)} >
+                <Botao onPress={() => setModalExcluirVisivel(false)}>
                   <Octicons name='x' size={14} color='#fff' />
                   <BotaoLabel>Não</BotaoLabel>
                 </Botao>

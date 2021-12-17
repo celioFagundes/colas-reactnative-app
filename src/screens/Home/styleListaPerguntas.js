@@ -39,8 +39,9 @@ export const IconsContainer = styled.View`
 export const BoxPergunta = styled.View`
   margin: 15px 0;
 `;
+
 export const Pergunta = styled.TouchableOpacity`
-  background-color: #3772ff;
+  background-color: ${props => props.selecionada ? '#1545B3' : '#3772ff'};
   padding: 20px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
@@ -66,7 +67,7 @@ export const TextoResposta = styled.Text`
   color: #000;
 `;
 
-export const IconArrow = styled.View`
+export const Icon= styled.View`
   position: absolute;
   top: 20px;
   right: 10px;
