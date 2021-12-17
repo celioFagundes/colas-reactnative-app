@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useDatabaseShare } from '../../config/database';
-import { Fontisto } from '@expo/vector-icons';
-import { Button, Pressable } from 'react-native';
+import { useDatabaseSharePush } from '../../config/database';
+import { Fontisto, MaterialIcons, Octicons } from '@expo/vector-icons';
 import ContainerExpansivo from './ContainerExpansivo';
 import { LayoutAnimation, Platform, UIManager } from 'react-native';
 import {
   ContainerPerguntas,
   Tab,
-  PerguntasHeader,
+  Header,
   ToggleSelect,
   IconsContainer,
   Lista,
+  IconeSelecao,
+  LabelCompartilhar,
 } from './styleListaPerguntas';
 
 if (
@@ -22,11 +23,17 @@ if (
 
 const ListaPerguntas = ({ data, topico, secao }) => {
   const [dataSource, setDataSource] = useState({});
-  const [modoSelecionando, setModoselecionando] = useState(false);
+  const [modoSelecionando, setModoselecionando] = useState(true);
   const [multiSelect, setMultiSelect] = useState(true);
-  const [pushData, push, genKey] = useDatabaseShare();
+  const [compartilharDisabled, setCompartilharDisabled] = useState(false);
+  const [pushData, push, genKey] = useDatabaseSharePush();
   const [perguntasSelecionadas, setPerguntasSelecionadas] = useState([]);
 
+  useEffect(() => {
+    perguntasSelecionadas.length > 0
+      ? setCompartilharDisabled(false)
+      : setCompartilharDisabled(true);
+  }, [perguntasSelecionadas]);
   useEffect(() => {
     setDataSource(data);
   }, [data]);
@@ -57,8 +64,8 @@ const ListaPerguntas = ({ data, topico, secao }) => {
   };
 
   const selecionar = (id) => {
-    setModoselecionando(true)
-    if(!jaSelecionada(id)){
+    setModoselecionando(true);
+    if (!jaSelecionada(id)) {
       setPerguntasSelecionadas([
         ...perguntasSelecionadas,
         {
@@ -66,32 +73,36 @@ const ListaPerguntas = ({ data, topico, secao }) => {
           pergunta: dataSource[id].pergunta,
           resposta: dataSource[id].resposta,
         },
-      ])
-    }else{
-      const arraySemItem = perguntasSelecionadas.filter(item =>{
-        return item.id !== id
-      })
-      setPerguntasSelecionadas([...arraySemItem])
+      ]);
+    } else {
+      const arraySemItem = perguntasSelecionadas.filter((item) => {
+        return item.id !== id;
+      });
+      setPerguntasSelecionadas([...arraySemItem]);
     }
-  }
-  const sairDaSelecao = () =>{
-    setModoselecionando(false)
-    setPerguntasSelecionadas([])
-  }
-  const selecionarTodas = () =>{
-    const todasPerg = []
-    if(perguntasSelecionadas.length === Object.keys(dataSource).length){
-      setPerguntasSelecionadas([])
-    }else{
-      Object.keys(dataSource).map(item =>{
-        todasPerg.push({id: item, pergunta: dataSource[item].pergunta,resposta: dataSource[item].resposta})
-      })
-      setPerguntasSelecionadas([...todasPerg])
+  };
+  const sairDaSelecao = () => {
+    setModoselecionando(false);
+    setPerguntasSelecionadas([]);
+  };
+  const selecionarTodas = () => {
+    const todasPerg = [];
+    if (perguntasSelecionadas.length === Object.keys(dataSource).length) {
+      setPerguntasSelecionadas([]);
+    } else {
+      Object.keys(dataSource).map((item) => {
+        todasPerg.push({
+          id: item,
+          pergunta: dataSource[item].pergunta,
+          resposta: dataSource[item].resposta,
+        });
+      });
+      setPerguntasSelecionadas([...todasPerg]);
     }
-    
-  }
+  };
   const share = () => {
-    let arrayKey = genKey()
+    let arrayKey = genKey();
+
     if (perguntasSelecionadas.length > 0) {
       Promise.all(
         perguntasSelecionadas.map((perg) => {
@@ -102,49 +113,80 @@ const ListaPerguntas = ({ data, topico, secao }) => {
             },
             arrayKey
           );
-          console.log('rodando');
         })
       );
-      console.log('passo');
     }
   };
   return (
     <ContainerPerguntas>
-      <PerguntasHeader>
-        <Button title='share' onPress={share} />
-        <Button title='sair da selecao' onPress={sairDaSelecao} />
-        <Button title='selecionar todas' onPress={selecionarTodas} />
-        <Tab>Perguntas {JSON.stringify(perguntasSelecionadas)} {modoSelecionando.toString()}</Tab>
-        <ToggleSelect onPress={() => setMultiSelect(!multiSelect)}>
-          <Tab>
-            {multiSelect ? (
-              <Fontisto name='arrow-v' size={18} color='#3772ff' />
+      {!modoSelecionando && (
+        <Header>
+          <Tab>Perguntas</Tab>
+          <ToggleSelect onPress={() => setMultiSelect(!multiSelect)}>
+            <Tab>
+              {multiSelect ? (
+                <Fontisto name='arrow-v' size={18} color='#3772ff' />
+              ) : (
+                <IconsContainer>
+                  <Fontisto name='arrow-v' size={18} color='#3772ff' />
+                  <Fontisto name='arrow-v' size={18} color='#3772ff' />
+                </IconsContainer>
+              )}
+            </Tab>
+          </ToggleSelect>
+        </Header>
+      )}
+      {modoSelecionando && (
+        <Header>
+          <IconeSelecao onPress={selecionarTodas}>
+            <Tab>{perguntasSelecionadas.length}</Tab>
+            {perguntasSelecionadas.length === Object.keys(dataSource).length ? (
+              <MaterialIcons name='check-circle' size={18} color='#000' />
             ) : (
-              <IconsContainer>
-                <Fontisto name='arrow-v' size={18} color='#3772ff' />
-                <Fontisto name='arrow-v' size={18} color='#3772ff' />
-              </IconsContainer>
-            )}
-          </Tab>
-        </ToggleSelect>
-      </PerguntasHeader>
-      <Lista>
-        <Pressable>
-          {dataSource &&
-            Object.keys(dataSource).map((item, index) => (
-              <ContainerExpansivo
-                item={dataSource[item]}
-                id={item}
-                key={item}
-                selecionando = {modoSelecionando}
-                selecionada = {modoSelecionando && jaSelecionada(item)}
-                onLongPress={selecionar}
-                onClickFunction={ !modoSelecionando ? () => updateLayout(item) : () => selecionar(item)}
-                topico={topico}
-                secao={secao}
+              <MaterialIcons
+                name='radio-button-unchecked'
+                size={18}
+                color='#000'
               />
-            ))}
-        </Pressable>
+            )}
+            <Tab>Todas</Tab>
+          </IconeSelecao>
+          <IconeSelecao onPress={share} disabled={compartilharDisabled}>
+            <Fontisto
+              name='share-a'
+              size={16}
+              color={
+                compartilharDisabled
+                  ? 'rgba(0, 0, 0, 0.3)'
+                  : 'rgba(0, 0, 0, 0.6)'
+              }
+            />
+            <LabelCompartilhar disabled={compartilharDisabled}>
+              Compartilhar
+            </LabelCompartilhar>
+          </IconeSelecao>
+          <IconeSelecao onPress={sairDaSelecao}>
+            <Fontisto name='close' size={18} color='black' />
+          </IconeSelecao>
+        </Header>
+      )}
+
+      <Lista>
+        {dataSource &&
+          Object.keys(dataSource).map((item, index) => (
+            <ContainerExpansivo
+              item={dataSource[item]}
+              id={item}
+              key={item}
+              selecionando={modoSelecionando}
+              selecionada={modoSelecionando && jaSelecionada(item)}
+              onLongPress={selecionar}
+              selecionarFunction={() => selecionar(item)}
+              onClickFunction={() => updateLayout(item)}
+              topico={topico}
+              secao={secao}
+            />
+          ))}
       </Lista>
     </ContainerPerguntas>
   );

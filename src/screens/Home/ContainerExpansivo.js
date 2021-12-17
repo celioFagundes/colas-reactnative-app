@@ -21,7 +21,6 @@ import {
   ExcluirMensagem,
   Tab,
   BotaoLabel,
-  
 } from './styleListaPerguntas.js';
 
 const ContainerExpansivo = ({
@@ -33,6 +32,7 @@ const ContainerExpansivo = ({
   onLongPress,
   selecionada,
   selecionando,
+  selecionarFunction,
 }) => {
   const [pergunta, setPergunta] = useState({
     pergunta: item.pergunta,
@@ -71,7 +71,7 @@ const ContainerExpansivo = ({
         selecionada={selecionada}
       >
         <TextoPergunta>{item.pergunta}</TextoPergunta>
-        {!selecionando ? 
+        {!selecionando ? (
           <Icon>
             {item.expandido ? (
               <Octicons name='arrow-small-up' size={24} color='#fff' />
@@ -79,32 +79,41 @@ const ContainerExpansivo = ({
               <Octicons name='arrow-small-down' size={28} color='#fff' />
             )}
           </Icon>
-         : 
+        ) : (
           <Icon>
             {selecionada ? (
-              <MaterialIcons name='check-circle' size={24} color='#fff' />
+              <MaterialIcons
+                name='check-circle'
+                size={24}
+                color='#fff'
+                onPress={selecionarFunction}
+              />
             ) : (
               <MaterialIcons
                 name='radio-button-unchecked'
                 size={24}
                 color='#fff'
+                onPress={selecionarFunction}
               />
             )}
           </Icon>
-        }
+        )}
       </Pergunta>
       <BoxResposta expandido={item.expandido}>
         <Resposta>
           <TextoResposta>{item.resposta}</TextoResposta>
         </Resposta>
-        <Acoes>
-          <Editar onPress={() => setModalEditVisivel(true)}>
-            <MaterialIcons name='edit' size={22} color='#3772ff' />
-          </Editar>
-          <Excluir onPress={() => setModalExcluirVisivel(true)}>
-            <MaterialIcons name='delete' size={22} color='#3772ff' />
-          </Excluir>
-        </Acoes>
+        {!selecionando && (
+          <Acoes>
+            <Editar onPress={() => setModalEditVisivel(true)}>
+              <MaterialIcons name='edit' size={22} color='#3772ff' />
+            </Editar>
+            <Excluir onPress={() => setModalExcluirVisivel(true)}>
+              <MaterialIcons name='delete' size={22} color='#3772ff' />
+            </Excluir>
+          </Acoes>
+        )}
+
         <Modal
           visible={modalEditVisivel}
           transparent={true}

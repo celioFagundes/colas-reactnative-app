@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from 'react-native';
-import { useDatabase, useDatabasePush } from '../../config/database';
+import { useDatabase, useDatabasePush,  useDatabaseShareGet } from '../../config/database';
 import { Entypo } from '@expo/vector-icons';
 import ModalPicker from './ModalPicker';
 import CriarStatus from './CriarStatus';
@@ -23,6 +23,8 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
 
   const secoes = useDatabase('/secoes/' + topicoSelecionado);
   const [dataStatus, pushNovaData] = useDatabasePush();
+  const [perguntasShare, setPerguntasShare] = useState()
+  const [getPerguntas] = useDatabaseShareGet()
 
   const savePergunta = () => {
     if (
@@ -65,13 +67,34 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
   };
   
   const toggleModal = (func, bool) => func(bool)
-
   const resetSecao = () => {
     setSecaoSelecionada('Seção');
   };
+
+  const receberPerguntas = async(codigo) =>{
+    const data = await getPerguntas(codigo)
+    console.log(data)
+    console.log('terminou')
+    setPerguntasShare(data)
+  }
+  const adicionarPerguntas = () =>{
+    Promise.all(Object.keys(perguntasShare).map(item =>{
+      pushNovaData('/perguntas/' + topicoSelecionado + '/' + secaoSelecionada,{
+        pergunta:perguntasShare[item].pergunta,
+        resposta: perguntasShare[item].resposta
+      })
+    }))
+  }
   return (
     <Container>
-      <Tab>Criar uma nova pergunta</Tab>
+      
+      <Tab>Criar uma nova pergunta {JSON.stringify(perguntasShare)}</Tab>
+      <Button onPress = {() => receberPerguntas('C016-CD9D-44FB')}>
+        <ButtonTitle>Receber</ButtonTitle>
+      </Button>
+      <Button onPress = {adicionarPerguntas}>
+        <ButtonTitle>Adicionar</ButtonTitle>
+      </Button>
       <ContainerModais>
         <ModalSelect onPress={() => toggleModal(setModalTopicoVisivel, true)}>
           <ModalText

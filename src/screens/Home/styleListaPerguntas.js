@@ -23,8 +23,9 @@ export const Tab = styled.Text`
   color: rgba(0, 0, 0, 0.6);
   font-size: 18px;
   font-weight: bold;
+  margin-left: 5px;
 `;
-export const PerguntasHeader = styled.View`
+export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -41,7 +42,7 @@ export const BoxPergunta = styled.View`
 `;
 
 export const Pergunta = styled.TouchableOpacity`
-  background-color: ${props => props.selecionada ? '#1545B3' : '#3772ff'};
+  background-color: ${(props) => (props.selecionada ? '#1545B3' : '#3772ff')};
   padding: 20px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
@@ -67,7 +68,7 @@ export const TextoResposta = styled.Text`
   color: #000;
 `;
 
-export const Icon= styled.View`
+export const Icon = styled.View`
   position: absolute;
   top: 20px;
   right: 10px;
@@ -80,11 +81,11 @@ export const Acoes = styled.View`
 
 export const Excluir = styled.TouchableOpacity`
   margin: 10px;
-  margin-right:0px;
+  margin-right: 0px;
 `;
 export const Editar = styled.TouchableOpacity`
   margin: 10px;
-  margin-right:0px;
+  margin-right: 0px;
 `;
 export const ModalContainer = styled.TouchableOpacity`
   flex: 1;
@@ -144,5 +145,16 @@ export const Botao = styled.TouchableOpacity`
 export const BotaoLabel = styled.Text`
   color: #fff;
   font-size: 18px;
+  margin-left: 5px;
+`;
+export const IconeSelecao = styled.TouchableOpacity`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+export const LabelCompartilhar = styled.Text`
+  color: ${props => props.disabled ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.6)'};
+  font-size: 18px;
+  font-weight: bold;
   margin-left: 5px;
 `;
