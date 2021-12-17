@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import firebase from './firebase';
 import { getDatabase, ref, onValue, set, push,remove, update } from '@firebase/database';
 import { AuthContext } from './auth';
-
+import moment from 'moment';
 const database = getDatabase(firebase);
 
 export const useDatabase = (endpoint) => {
@@ -54,4 +54,22 @@ export const useDatabaseUpdate = () => {
     update(dataRef, data);
   };
   return [status, atualizar];
+};
+
+
+
+export const useDatabaseShare = () => {
+  const [status, setStatus] = useState('');
+  const genKey = () =>{
+    const code = parseInt(moment().format('YYMMDDHHmmssSSS')).toString(16).toUpperCase()
+    return code.substring(0,4) + '-' + code.substring(4,8) + '-' + code.substring(8,12)
+  }
+  
+  const save = (data,arrayKey) => {
+    
+    const dataRef = ref(database,  '/compartilhadas/' + arrayKey)
+    const novaRef = push(dataRef);
+    set(novaRef,data)
+  };
+  return [status, save, genKey];
 };

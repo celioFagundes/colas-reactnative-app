@@ -23,7 +23,7 @@ import {
   BotaoLabel,
 } from './styleListaPerguntas.js';
 
-const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao }) => {
+const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao, onLongPress }) => {
   const [pergunta, setPergunta] = useState({
     pergunta: item.pergunta,
     resposta: item.resposta,
@@ -54,7 +54,7 @@ const ContainerExpansivo = ({ item, onClickFunction, id, topico, secao }) => {
 
   return (
     <BoxPergunta>
-      <Pergunta onPress={onClickFunction} expandido={item.expandido}>
+      <Pergunta onPress={onClickFunction} expandido={item.expandido} onLongPress= {() => onLongPress(id)}>
         <TextoPergunta>{item.pergunta}</TextoPergunta>
         <IconArrow>
           {item.expandido ? (
