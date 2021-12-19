@@ -153,8 +153,18 @@ export const IconeSelecao = styled.TouchableOpacity`
   justify-content: center;
 `;
 export const LabelCompartilhar = styled.Text`
-  color: ${props => props.disabled ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.6)'};
+  color: ${(props) =>
+    props.disabled ? 'rgba(0, 0, 0, 0.3)' : 'rgba(0, 0, 0, 0.6)'};
   font-size: 18px;
   font-weight: bold;
   margin-left: 5px;
+`;
+export const MensagemCompartilhar = styled.Text`
+  font-size: 18px;
+  text-align: center;
+`;
+export const Codigo = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px;
 `;
