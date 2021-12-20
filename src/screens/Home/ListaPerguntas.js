@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import * as Clipboard from 'expo-clipboard';
-
-import { useDatabaseSharePush } from '../../config/database';
-import { Fontisto, MaterialIcons, Octicons } from '@expo/vector-icons';
-import ContainerExpansivo from './ContainerExpansivo';
+import React, { useState, useEffect } from 'react'
+import * as Clipboard from 'expo-clipboard'
+import { useDatabaseSharePush } from '../../config/database'
+import { Fontisto, MaterialIcons, Octicons } from '@expo/vector-icons'
+import ContainerExpansivo from './ContainerExpansivo'
 import {
   LayoutAnimation,
   Platform,
@@ -13,7 +12,7 @@ import {
   Text,
   View,
   Alert,
-} from 'react-native';
+} from 'react-native'
 import {
   ContainerPerguntas,
   Tab,
@@ -24,71 +23,71 @@ import {
   IconeSelecao,
   LabelCompartilhar,
   MensagemCompartilhar,
-  Codigo
-} from './styleListaPerguntas';
+  Codigo,
+} from './styleListaPerguntas'
 import {
   ModalBox,
   ModalContainer,
   BoxBotoes,
   Botao,
   BotaoLabel,
-} from './styles';
+} from './styles'
 
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental
 ) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
+  UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
 const ListaPerguntas = ({ data, topico, secao }) => {
-  const [dataSource, setDataSource] = useState({});
-  const [codigoShare, setCodigoShare] = useState('');
-  const [shareTerminou, setShareTerminou] = useState(false);
-  const [shareModalVisivel, setShareModalVisivel] = useState(false);
-  const [modoSelecionando, setModoselecionando] = useState(true);
-  const [multiSelect, setMultiSelect] = useState(true);
-  const [compartilharDisabled, setCompartilharDisabled] = useState(false);
-  const [pushData, push, genKey] = useDatabaseSharePush();
-  const [perguntasSelecionadas, setPerguntasSelecionadas] = useState([]);
+  const [dataSource, setDataSource] = useState({})
+  const [codigoShare, setCodigoShare] = useState('')
+  const [shareTerminou, setShareTerminou] = useState(false)
+  const [shareModalVisivel, setShareModalVisivel] = useState(false)
+  const [modoSelecionando, setModoselecionando] = useState(false)
+  const [multiSelect, setMultiSelect] = useState(true)
+  const [compartilharDisabled, setCompartilharDisabled] = useState(false)
+  const [pushData, push, genKey] = useDatabaseSharePush()
+  const [perguntasSelecionadas, setPerguntasSelecionadas] = useState([])
 
   useEffect(() => {
     perguntasSelecionadas.length > 0
       ? setCompartilharDisabled(false)
-      : setCompartilharDisabled(true);
-  }, [perguntasSelecionadas]);
+      : setCompartilharDisabled(true)
+  }, [perguntasSelecionadas])
 
   useEffect(() => {
-    setDataSource(data);
-  }, [data]);
+    setDataSource(data)
+  }, [data])
 
   const updateLayout = (index) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    const array = dataSource;
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    const array = dataSource
     if (multiSelect) {
-      array[index]['expandido'] = !array[index]['expandido'];
+      array[index]['expandido'] = !array[index]['expandido']
     } else {
       Object.keys(array).map((value) =>
         value === index
           ? (array[value]['expandido'] = !array[value]['expandido'])
           : (array[value]['expandido'] = false)
-      );
+      )
     }
-    setDataSource({ ...array });
-  };
+    setDataSource({ ...array })
+  }
   const jaSelecionada = (id) => {
     const status = perguntasSelecionadas.some((element) => {
       if (element.id === id) {
-        return true;
+        return true
       } else {
-        return false;
+        return false
       }
-    });
-    return status;
-  };
+    })
+    return status
+  }
 
   const selecionar = (id) => {
-    setModoselecionando(true);
+    setModoselecionando(true)
     if (!jaSelecionada(id)) {
       setPerguntasSelecionadas([
         ...perguntasSelecionadas,
@@ -97,60 +96,60 @@ const ListaPerguntas = ({ data, topico, secao }) => {
           pergunta: dataSource[id].pergunta,
           resposta: dataSource[id].resposta,
         },
-      ]);
+      ])
     } else {
       const arraySemItem = perguntasSelecionadas.filter((item) => {
-        return item.id !== id;
-      });
-      setPerguntasSelecionadas([...arraySemItem]);
+        return item.id !== id
+      })
+      setPerguntasSelecionadas([...arraySemItem])
     }
-  };
+  }
   const sairDaSelecao = () => {
-    setModoselecionando(false);
-    setPerguntasSelecionadas([]);
-  };
+    setModoselecionando(false)
+    setPerguntasSelecionadas([])
+  }
   const selecionarTodas = () => {
-    const todasPerg = [];
+    const todasPerg = []
     if (perguntasSelecionadas.length === Object.keys(dataSource).length) {
-      setPerguntasSelecionadas([]);
+      setPerguntasSelecionadas([])
     } else {
       Object.keys(dataSource).map((item) => {
         todasPerg.push({
           id: item,
           pergunta: dataSource[item].pergunta,
           resposta: dataSource[item].resposta,
-        });
-      });
-      setPerguntasSelecionadas([...todasPerg]);
+        })
+      })
+      setPerguntasSelecionadas([...todasPerg])
     }
-  };
+  }
   const share = () => {
-    let arrayKey = genKey();
+    let arrayKey = genKey()
     Promise.all(
       perguntasSelecionadas.map((perg) => {
-        console.log('rodando');
+        console.log('rodando')
         push(
           {
             pergunta: perg.pergunta,
             resposta: perg.resposta,
           },
           arrayKey
-        );
+        )
       })
-    );
-    setCodigoShare(arrayKey);
-    setShareTerminou(true);
-  };
+    )
+    setCodigoShare(arrayKey)
+    setShareTerminou(true)
+  }
 
   const terminarShare = () => {
-    setCodigoShare('');
-    setShareTerminou(false);
-    setShareModalVisivel(false);
-  };
+    setCodigoShare('')
+    setShareTerminou(false)
+    setShareModalVisivel(false)
+  }
   const copyToClipboard = () => {
-    Clipboard.setString(codigoShare);
-    Alert.alert('Código', 'Código copiado para área de transferência');
-  };
+    Clipboard.setString(codigoShare)
+    Alert.alert('Código', 'Código copiado para área de transferência')
+  }
   return (
     <ContainerPerguntas>
       {!modoSelecionando && (
@@ -255,20 +254,25 @@ const ListaPerguntas = ({ data, topico, secao }) => {
                 <MensagemCompartilhar>
                   Use este código ao na aba de criação para copiar as perguntas
                 </MensagemCompartilhar>
-                <IconeSelecao >
+                <IconeSelecao>
                   <Codigo>{codigoShare}</Codigo>
-                  <MaterialIcons name='content-copy' size={18} color='black' onPress={copyToClipboard}/>
+                  <MaterialIcons
+                    name='content-copy'
+                    size={18}
+                    color='black'
+                    onPress={copyToClipboard}
+                  />
                 </IconeSelecao>
                 <Botao onPress={terminarShare}>
-                    <BotaoLabel>Ok</BotaoLabel>
-                  </Botao>
+                  <BotaoLabel>Ok</BotaoLabel>
+                </Botao>
               </View>
             )}
           </ModalBox>
         </ModalContainer>
       </Modal>
     </ContainerPerguntas>
-  );
-};
+  )
+}
 
-export default ListaPerguntas;
+export default ListaPerguntas

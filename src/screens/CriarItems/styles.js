@@ -38,10 +38,28 @@ export const Input = styled.TextInput.attrs({
   border-right-width: 1px;
   border-bottom-width: 2px;
   border-color: rgba(0, 0, 0, 0.1);
+  
+`;
+export const InputCodigo = styled.TextInput.attrs({
+  placeholderTextColor: 'rgba(0, 0, 0, 0.3)',
+})`
+text-align:center;
+  padding: 10px;
+  font-size: 18px;
+  width: 70%;
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 15px 0;
+  border-top-width: 0.5px;
+  border-left-width: 0.5px;
+  border-right-width: 1px;
+  border-bottom-width: 2px;
+  border-color: rgba(0, 0, 0, 0.1);
+  
 `;
 
 export const Button = styled.TouchableOpacity`
-  background-color: #3772ff;
+  background-color: ${props => props.disabled ? '#8AADFF': '#3772ff'};
   align-self: center;
   padding: 8px 15px;
   border-radius: 8px;
@@ -110,11 +128,15 @@ export const ModalContainer = styled.TouchableOpacity`
   flex: 1;
   align-items: center;
   justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 export const ModalBox = styled.View`
   height: ${windowHeight};
   width: ${windowWidth};
-  background-color: #3772ff;
+  justify-content: center;
+  align-items:center;
+  padding:20px;
+  background-color: #f8f9fb;
   border-radius: 5px;
   border-top-width: 0.5px;
   border-left-width: 0.5px;
@@ -126,9 +148,24 @@ export const ModalItem = styled.TouchableOpacity`
   align-items:center;
 `;
 export const ItemText = styled.Text`
-  color: #fff;
+  color: #000;
   margin: 15px;
   font-size: 20px;
   font-weight: bold;
   text-transform: capitalize;
+`;
+
+export const Header = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin:5px;
+`;
+
+export const Mensagem = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align:center;
+  margin:0 5px;
 `;

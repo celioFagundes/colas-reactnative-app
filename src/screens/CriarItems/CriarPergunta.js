@@ -1,31 +1,52 @@
-import React, { useState } from 'react';
-import { Modal } from 'react-native';
-import { useDatabase, useDatabasePush,  useDatabaseShareGet } from '../../config/database';
-import { Entypo } from '@expo/vector-icons';
-import ModalPicker from './ModalPicker';
-import CriarStatus from './CriarStatus';
+import React, { useState, useEffect } from 'react'
+import { Modal, View } from 'react-native'
+import {
+  useDatabase,
+  useDatabasePush,
+  useDatabaseShareGet,
+} from '../../config/database'
+import { Entypo } from '@expo/vector-icons'
+import ModalPicker from './ModalPicker'
+import CriarStatus from './CriarStatus'
 import {
   Container,
   Input,
+  InputCodigo,
   Button,
   ButtonTitle,
   Tab,
   ModalSelect,
   ModalText,
   ContainerModais,
-} from './styles';
+  Header,
+  ModalContainer,
+  ModalBox,
+  Mensagem,
+} from './styles'
 const CriarPergunta = ({ topicos, status, setStatus }) => {
-  const [pergunta, setPergunta] = useState({ pergunta: '', resposta: '' });
-  const [modalTopicoVisivel, setModalTopicoVisivel] = useState(false);
-  const [modalSecaoVisivel, setModalSecaoVisivel] = useState(false);
-  const [secaoSelecionada, setSecaoSelecionada] = useState('Seção');
-  const [topicoSelecionado, setTopicoSelecionado] = useState('Tópico');
+  const [pergunta, setPergunta] = useState({ pergunta: '', resposta: '' })
+  const [codigo, setCodigo] = useState('')
+  const [adicionarTerminou, setAdicionarTerminou] = useState(false)
+  const [modalTopicoVisivel, setModalTopicoVisivel] = useState(false)
+  const [modalSecaoVisivel, setModalSecaoVisivel] = useState(false)
+  const [modalShareVisivel, setModalShareVisivel] = useState()
+  const [secaoSelecionada, setSecaoSelecionada] = useState('Seção')
+  const [topicoSelecionado, setTopicoSelecionado] = useState('Tópico')
 
-  const secoes = useDatabase('/secoes/' + topicoSelecionado);
-  const [dataStatus, pushNovaData] = useDatabasePush();
-  const [perguntasShare, setPerguntasShare] = useState()
+  const secoes = useDatabase('/secoes/' + topicoSelecionado)
+  const [dataStatus, pushNovaData] = useDatabasePush()
+  const [perguntasShare, setPerguntasShare] = useState({})
   const [getPerguntas] = useDatabaseShareGet()
 
+
+  const isDisabled = () =>{
+    if(topicoSelecionado !== 'Tópico' &&
+    secaoSelecionada !== 'Seção' ){
+      return false
+    }else{
+      return true
+    }
+  }
   const savePergunta = () => {
     if (
       topicoSelecionado !== 'Tópico' &&
@@ -36,65 +57,157 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
       pushNovaData(
         '/perguntas/' + topicoSelecionado + '/' + secaoSelecionada,
         pergunta
-      );
+      )
       setStatus({
         tipo: 'pergunta',
         status: 'Pergunta criada!',
         code: 'sucesso',
-      });
+      })
     } else {
       if (topicoSelecionado === 'Tópico' || secaoSelecionada === 'Seção') {
         setStatus({
           tipo: 'pergunta',
           status: 'Selecione um tópico e uma seção',
           code: 'erro',
-        });
+        })
       } else {
         setStatus({
           tipo: 'pergunta',
           status: 'Digite valores válidos',
           code: 'erro',
-        });
+        })
       }
     }
-  };
+  }
 
   const onChange = (field) => (text) => {
     setPergunta({
       ...pergunta,
       [field]: text,
-    });
-  };
-  
+    })
+  }
+
   const toggleModal = (func, bool) => func(bool)
   const resetSecao = () => {
-    setSecaoSelecionada('Seção');
-  };
-
-  const receberPerguntas = async(codigo) =>{
-    const data = await getPerguntas(codigo)
-    console.log(data)
-    console.log('terminou')
-    setPerguntasShare(data)
+    setSecaoSelecionada('Seção')
   }
-  const adicionarPerguntas = () =>{
-    Promise.all(Object.keys(perguntasShare).map(item =>{
-      pushNovaData('/perguntas/' + topicoSelecionado + '/' + secaoSelecionada,{
-        pergunta:perguntasShare[item].pergunta,
-        resposta: perguntasShare[item].resposta
+
+  const receberPerguntas = async (codigo) => {
+    if (  codigo !== ''){
+      const data = await getPerguntas(codigo)
+      if (data !== null) {
+        setPerguntasShare(data)
+        setAdicionarTerminou(true)
+        setStatus({
+          tipo: 'codigo',
+          status: ``,
+          code: 'sucesso',
+        })
+      } else {
+        setStatus({
+          tipo: 'codigo',
+          status: `Nenhuma pergunta encontrada`,
+          code: 'erro',
+        })
+      }
+    }else {
+        setStatus({
+          tipo: 'codigo',
+          status: 'Digite valores válidos',
+          code: 'erro',
+        })
+      
+    }
+  }
+  const adicionarPerguntas = () => {
+    Promise.all(
+      Object.keys(perguntasShare).map((item) => {
+        pushNovaData(
+          '/perguntas/' + topicoSelecionado + '/' + secaoSelecionada,
+          {
+            pergunta: perguntasShare[item].pergunta,
+            resposta: perguntasShare[item].resposta,
+          }
+        )
       })
-    }))
+    )
+  }
+
+  useEffect(() => {
+    if (Object.keys(perguntasShare).length > 0) {
+      adicionarPerguntas()
+    }
+  }, [perguntasShare])
+
+  const resetShare = () =>{
+    setCodigo('')
+    setAdicionarTerminou(false)
+    setModalShareVisivel(false)
+    setPerguntasShare({})
+    setStatus({})
+    
   }
   return (
     <Container>
-      
-      <Tab>Criar uma nova pergunta {JSON.stringify(perguntasShare)}</Tab>
-      <Button onPress = {() => receberPerguntas('C016-CD9D-44FB')}>
-        <ButtonTitle>Receber</ButtonTitle>
-      </Button>
-      <Button onPress = {adicionarPerguntas}>
-        <ButtonTitle>Adicionar</ButtonTitle>
-      </Button>
+      <Header>
+        <Tab>Criar uma nova pergunta</Tab>
+        <Button onPress={() => setModalShareVisivel(true)} disabled = {isDisabled()}>
+          <ButtonTitle>+ Código</ButtonTitle>
+        </Button>
+      </Header>
+      <Modal
+        transparent={true}
+        animationType='fade'
+        visible={modalShareVisivel}
+      >
+        <ModalContainer>
+          <ModalBox>
+            {!adicionarTerminou && (
+              <View>
+                <Mensagem>
+                  Insira um código para adicionar perguntas para o topico e
+                  seção selecionados
+                </Mensagem>
+                <Header>
+                  <Mensagem>
+                    Tópico:{' '}
+                    {topicoSelecionado !== 'Tópico'
+                      ? topicoSelecionado
+                      : 'Nenhum'}
+                  </Mensagem>
+                  <Mensagem>
+                    Seção:{' '}
+                    {secaoSelecionada !== 'Seção'
+                      ? secaoSelecionada
+                      : 'Nenhuma'}
+                  </Mensagem>
+                </Header>
+                <InputCodigo
+                  onChangeText={(text) => setCodigo(text)}
+                  placeholder='AAAA-BBBB-CCCC'
+                />
+                {status.tipo === 'codigo' && <CriarStatus status={status} />}
+                <Header>
+                  <Button onPress={() => receberPerguntas(codigo)}>
+                    <ButtonTitle>Adicionar</ButtonTitle>
+                  </Button>
+                  <Button onPress={() => setModalShareVisivel(false)}>
+                    <ButtonTitle>Cancelar</ButtonTitle>
+                  </Button>
+                </Header>
+              </View>
+            )}
+            {adicionarTerminou && (
+              <View>
+                <Mensagem>Perguntas adicionadas com sucesso</Mensagem>
+                <Button onPress={resetShare}>
+                  <ButtonTitle>Ok</ButtonTitle>
+                </Button>
+              </View>
+            )}
+          </ModalBox>
+        </ModalContainer>
+      </Modal>
       <ContainerModais>
         <ModalSelect onPress={() => toggleModal(setModalTopicoVisivel, true)}>
           <ModalText
@@ -165,7 +278,7 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
         <ButtonTitle>Adicionar Pergunta</ButtonTitle>
       </Button>
     </Container>
-  );
-};
+  )
+}
 
-export default CriarPergunta;
+export default CriarPergunta
