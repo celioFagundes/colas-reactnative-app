@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import * as Clipboard from 'expo-clipboard'
 import { useDatabaseSharePush } from '../../config/database'
 import { Fontisto, MaterialIcons } from '@expo/vector-icons'
-import ContainerExpansivo from './ContainerExpansivo'
+import ContainerExpansivo from '../../components/ContainerExpansivo'
 import BotaoIcone from '../../components/BotaoIcone'
 import ModalShare from '../../components/ModalShare'
 import HeaderSelecionar from '../../components/HeaderSelecionar'
@@ -23,6 +23,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 const ListaPerguntas = ({ data, topico, secao }) => {
   const [dataSource, setDataSource] = useState({})
   const [codigoShare, setCodigoShare] = useState('')
+  const [verLista, setVerLista] = useState(false)
   const [shareTerminou, setShareTerminou] = useState(false)
   const [shareModalVisivel, setShareModalVisivel] = useState(false)
   const [modoSelecionando, setModoselecionando] = useState(false)
@@ -130,11 +131,20 @@ const ListaPerguntas = ({ data, topico, secao }) => {
     Clipboard.setString(codigoShare)
     Alert.alert('Código', 'Código copiado para área de transferência')
   }
+
+  const toggleVerLista = bool => {
+    setVerLista(bool)
+  }
   return (
-    <ContainerPerguntas>
+    <ContainerPerguntas vendo={verLista}>
       {!modoSelecionando && (
         <Header>
           <Tab>Perguntas</Tab>
+          <BotaoIcone
+            onPress={() => toggleVerLista(!verLista)}
+            name='remove-red-eye'
+            color='#3772ff'
+          />
           {multiSelect ? (
             <BotaoIcone
               onPress={() => setMultiSelect(!multiSelect)}

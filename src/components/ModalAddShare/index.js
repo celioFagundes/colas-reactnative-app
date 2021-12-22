@@ -2,7 +2,7 @@ import React from 'react'
 import { Modal } from 'react-native'
 import { ModalContainer, ModalBox, InputCodigo,Mensagem,Header } from './style'
 import Botao from '../Botao'
-import CriarStatus from '../../screens/CriarItems/CriarStatus'
+import CriarStatus from '../../components/Status';
 
 const ModalAddShare = ({terminou, visible,codigo, topicoSelecionado, secaoSelecionada, codigoSet, get, modalSet, status, reset}) => {
   return (

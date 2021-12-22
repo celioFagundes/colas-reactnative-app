@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from 'react-native'
 import { Select, Option } from './style'
-import ModalPicker from '../../screens/CriarItems/ModalPicker'
+import ModalPicker from '../ModalPicker'
 import { Entypo } from '@expo/vector-icons'
 
 const ModalSelect = ({

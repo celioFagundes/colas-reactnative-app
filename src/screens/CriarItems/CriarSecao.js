@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import { useDatabase, useDatabasePush } from '../../config/database'
 import { Keyboard, Modal } from 'react-native'
-import { Entypo } from '@expo/vector-icons'
-import ModalPicker from './ModalPicker'
-import CriarStatus from './CriarStatus'
+import CriarStatus from '../../components/Status';
 import Layout from '../../components/LayoutContainer'
 import Botao from '../../components/Botao'
 import ModalSelect from '../../components/ModalSelect'

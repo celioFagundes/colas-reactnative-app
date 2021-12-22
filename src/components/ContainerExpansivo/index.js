@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDatabaseRemove, useDatabaseUpdate } from '../../config/database'
-import BotaoIcone from '../../components/BotaoIcone'
+import BotaoIcone from '../BotaoIcone'
 import { Octicons } from '@expo/vector-icons'
 import {
   Wrapper,
@@ -13,9 +13,9 @@ import {
   Acoes,
 
  
-} from './styles_expansivo'
-import ModalExcluir from '../../components/ModalExcluirELogout'
-import ModalEdit from '../../components/ModalEdit'
+} from './style'
+import ModalExcluir from '../ModalExcluirELogout'
+import ModalEdit from '../ModalEdit'
 
 const ContainerExpansivo = ({
   item,
@@ -49,11 +49,14 @@ const ContainerExpansivo = ({
   }
 
   const editarPergunta = id => {
+    if(pergunta.pergunta !== '' &&
+    pergunta.resposta !== ''){
     update('/perguntas/' + topico + '/' + secao + '/' + id, {
       pergunta: pergunta.pergunta,
       resposta: pergunta.resposta,
     })
     setModalEditVisivel(false)
+  }
   }
 
   return (

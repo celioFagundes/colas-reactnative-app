@@ -5,7 +5,7 @@ import {
   useDatabaseShareGet,
 } from '../../config/database'
 import Layout from '../../components/LayoutContainer'
-import CriarStatus from './CriarStatus'
+import CriarStatus from '../../components/Status';
 import Botao from '../../components/Botao'
 import ModalSelect from '../../components/ModalSelect'
 import {

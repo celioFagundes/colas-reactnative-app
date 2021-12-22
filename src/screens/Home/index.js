@@ -6,6 +6,7 @@ import { AuthContext } from '../../config/auth'
 import Lista from '../../components/Lista'
 import Layout from '../../components/LayoutContainer'
 import BotaoIcone from '../../components/BotaoIcone'
+import { Text, View } from 'react-native'
 import {
   Wrapper,
   ScrollView,
@@ -14,9 +15,10 @@ import {
 
 const Home = props => {
   const auth = useContext(AuthContext)
-  const [topico, setTopico] = useState(null)
+
+  const [topico, setTopico] = useState()
   const [topicoKey, setTopicoKey] = useState(null)
-  const [secao, setSecao] = useState(null)
+  const [secao, setSecao] = useState()
   const [secaoKey, setSecaoKey] = useState(null)
   const [modalExcluirTopico, setModalExcluirTopico] = useState(false)
   const [modalExcluirSecao, setModalExcluirSecao] = useState(false)
@@ -58,9 +60,9 @@ const Home = props => {
     }
   }, [auth.user])
 
+  
   return (
     <Wrapper>
-
         <Layout title='Tópicos'>
           {data && Object.keys(data).length > 0 ? (
             <Lista data={data} refetchFunction={refetchSecoes} tipo='topico' selecionado={topico} />

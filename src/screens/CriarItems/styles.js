@@ -168,12 +168,10 @@ export const Mensagem = styled.Text`
 
 export const ButtonShare = styled.TouchableOpacity`
   background-color: ${props => props.disabled ? '#8AADFF': '#3772ff'};
-  position: absolute ;
-  top:15px;
-  right:0;
   padding: 8px 15px;
+  width: 100px;
   border-radius: 8px;
-  margin-right: 10px;
+  margin: 5px 0px;
   border-top-width: 0.5px;
   border-left-width: 0.5px;
   border-right-width: 1px;

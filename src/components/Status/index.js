@@ -4,7 +4,7 @@ import {
   Status,
   StatusIcon,
   StatusMessage,
-} from './styles';
+} from './style';
 const CriarStatus = ({status}) => {
     return (
         <Status>

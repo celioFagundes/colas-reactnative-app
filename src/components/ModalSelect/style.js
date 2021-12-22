@@ -12,7 +12,7 @@ export const Select = styled.TouchableOpacity`
   background-color: #fff;
   padding: 8px 10px;
   border-radius: 8px;
-  margin: 10px 0;
+  margin: 5px 0;
   ${Sombra}
 `;
 export const Option = styled.Text`

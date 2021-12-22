@@ -5,7 +5,11 @@ const windowHeight = Dimensions.get('window').height / 4 + 'px'
 import { Sombra, Texto } from '../../styles/geral.js'
 
 export const ContainerPerguntas = styled.View`
-flex:1;
+  position:${props => props.vendo ? 'absolute' : 'relative'};
+  width:100%;
+  top:0;
+  bottom:0;
+  left:${props => props.vendo ? '20px' : '0'};
   background-color: #f8f9fb;
   border-radius: 8px;
   padding: 20px 10px;

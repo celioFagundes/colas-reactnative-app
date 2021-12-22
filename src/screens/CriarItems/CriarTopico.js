@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDatabasePush } from '../../config/database';
 import { Keyboard } from 'react-native';
-import CriarStatus from './CriarStatus';
+import CriarStatus from '../../components/Status';
 import Layout from '../../components/LayoutContainer'
 import { Container, Input, Button, ButtonTitle, Tab } from './styles';
 import Botao from '../../components/Botao'
