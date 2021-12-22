@@ -1,6 +1,6 @@
 import styled from "styled-components/native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Excluir } from "../Home/styles";
+import { Excluir } from "../Home/styles_index";
 
 export const Wrapper = styled(LinearGradient)`
   flex: 1;

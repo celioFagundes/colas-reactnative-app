@@ -1,188 +1,106 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Octicons, MaterialIcons } from '@expo/vector-icons';
-import { useDatabase, useDatabaseRemove } from '../../config/database';
-import ListaPerguntas from './ListaPerguntas';
-import { AuthContext } from '../../config/auth';
-import { FlatList } from 'react-native';
-import { Modal } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react'
+import { useDatabase, useDatabaseRemove } from '../../config/database'
+import ListaPerguntas from './ListaPerguntas'
+import ModalExcluir from '../../components/ModalExcluirELogout'
+import { AuthContext } from '../../config/auth'
+import Lista from '../../components/Lista'
+import Layout from '../../components/LayoutContainer'
+import BotaoIcone from '../../components/BotaoIcone'
 import {
   Wrapper,
-  ScrollContainer,
-  Container,
-  Tab,
-  Excluir,
-  Button,
-  ButtonTitle,
+  ScrollView,
   Placeholder,
-  ModalContainer,
-  ModalBox,
-  ExcluirMensagem,
-  BoxBotoes,
-  Botao,
-  BotaoLabel,
-} from './styles';
+} from './styles_index'
 
-const Home = (props) => {
-  const auth = useContext(AuthContext);
+const Home = props => {
+  const auth = useContext(AuthContext)
+  const [topico, setTopico] = useState(null)
+  const [topicoKey, setTopicoKey] = useState(null)
+  const [secao, setSecao] = useState(null)
+  const [secaoKey, setSecaoKey] = useState(null)
+  const [modalExcluirTopico, setModalExcluirTopico] = useState(false)
+  const [modalExcluirSecao, setModalExcluirSecao] = useState(false)
 
-  const [topico, setTopico] = useState(null);
-  const [topicoKey, setTopicoKey] = useState(null);
-  const [secao, setSecao] = useState(null);
-  const [secaoKey, setSecaoKey] = useState(null);
-  const [modalExcluirTopico, setModalExcluirTopico] = useState(false);
-  const [modalExcluirSecao, setModalExcluirSecao] = useState(false);
-  
-  const data = useDatabase('/topicos/');
-  const dataSecoes = useDatabase('/secoes/' + topico);
-  const dataPerguntas = useDatabase('/perguntas/' + topico + '/' + secao);
-  const remove = useDatabaseRemove();
+  const data = useDatabase('/topicos/')
+  const dataSecoes = useDatabase('/secoes/' + topico)
+  const dataPerguntas = useDatabase('/perguntas/' + topico + '/' + secao)
+  const remove = useDatabaseRemove()
 
   const refetchSecoes = (data, itemKey) => {
-    topico === data ? setTopico(null) : setTopico(data);
-    setTopicoKey(itemKey);
-    setSecao(null);
-  };
+    topico === data ? setTopico(null) : setTopico(data)
+    setTopicoKey(itemKey)
+    setSecao(null)
+  }
   const refetchPerguntas = (data, itemKey) => {
-    secao === data ? setSecao(null) : setSecao(data);
-    setSecaoKey(itemKey);
-  };
+    secao === data ? setSecao(null) : setSecao(data)
+    setSecaoKey(itemKey)
+  }
 
   const excluirTopico = () => {
-    remove('/topicos/' + topicoKey);
-    remove('/secoes/' + '/' + topico);
-    remove('/perguntas/' + '/' + topico);
-    setTopico(null);
-    setTopicoKey(null);
-    setModalExcluirTopico(false);
-  };
+    remove('/topicos/' + topicoKey)
+    remove('/secoes/' + '/' + topico)
+    remove('/perguntas/' + '/' + topico)
+    setTopico(null)
+    setTopicoKey(null)
+    setModalExcluirTopico(false)
+  }
   const excluirSecao = () => {
-    remove('/secoes/' + '/' + topico + '/' + secaoKey);
-    remove('/perguntas/' + '/' + topico + '/' + secao);
-    setSecao(null);
-    setSecaoKey(null);
-    setModalExcluirSecao(false);
-  };
+    remove('/secoes/' + '/' + topico + '/' + secaoKey)
+    remove('/perguntas/' + '/' + topico + '/' + secao)
+    setSecao(null)
+    setSecaoKey(null)
+    setModalExcluirSecao(false)
+  }
 
   useEffect(() => {
     if (auth.loading && auth.user === null) {
-      props.navigation.navigate('Loading');
+      props.navigation.navigate('Loading')
     }
-  }, [auth.user]);
+  }, [auth.user])
 
   return (
     <Wrapper>
-      <ScrollContainer>
-        <Container>
-          <Tab>Tópicos</Tab>
+
+        <Layout title='Tópicos'>
           {data && Object.keys(data).length > 0 ? (
-            <FlatList
-              data={Object.keys(data)}
-              renderItem={({ item }) => (
-                <Button
-                  onPress={() => refetchSecoes(data[item].topico, item)}
-                  key={data[item].topico}
-                  selecionado={topico === data[item].topico ? true : false}
-                >
-                  <ButtonTitle>{data[item].topico}</ButtonTitle>
-                </Button>
-              )}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item}
-              style={{ marginTop: 15 }}
-            />
+            <Lista data={data} refetchFunction={refetchSecoes} tipo='topico' selecionado={topico} />
           ) : (
             <Placeholder>Sem tópicos</Placeholder>
           )}
           {topico !== null && (
-            <Excluir onPress={() => setModalExcluirTopico(true)}>
-              <MaterialIcons name='delete' size={22} color='#3772ff' />
-            </Excluir>
+            <BotaoIcone name='delete' color='#3772ff' onPress={() => setModalExcluirTopico(true)} />
           )}
-        </Container>
-        <Container>
-          <Tab>Secões</Tab>
+        </Layout>
+        <Layout title='Secões'>
           {dataSecoes && topico !== '' ? (
-            <FlatList
-              data={Object.keys(dataSecoes)}
-              renderItem={({ item }) => (
-                <Button
-                  onPress={() => refetchPerguntas(dataSecoes[item].secao, item)}
-                  key={dataSecoes[item].secao}
-                  selecionado={secao === dataSecoes[item].secao ? true : false}
-                >
-                  <ButtonTitle>{dataSecoes[item].secao}</ButtonTitle>
-                </Button>
-              )}
-              keyExtractor={(item) => item}
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              style={{ marginTop: 15 }}
+            <Lista
+              data={dataSecoes}
+              refetchFunction={refetchPerguntas}
+              tipo={'secao'}
+              selecionado={secao}
             />
           ) : (
-            <Placeholder>
-              {topico === '' ? 'Selecione um tópico' : 'Sem secões'}
-            </Placeholder>
+            <Placeholder>{topico === null ? 'Selecione um tópico' : 'Sem secões'}</Placeholder>
           )}
           {secao !== null && (
-            <Excluir onPress={() => setModalExcluirSecao(true)}>
-              <MaterialIcons name='delete' size={22} color='#3772ff' />
-            </Excluir>
+            <BotaoIcone name='delete' color='#3772ff' onPress={() => setModalExcluirSecao(true)} />
           )}
-        </Container>
-        <Modal
+        </Layout>
+        <ModalExcluir
           visible={modalExcluirTopico}
-          transparent={true}
-          animationType='fade'
-        >
-          <ModalContainer>
-            <ModalBox>
-              <ExcluirMensagem>
-                Tem certeza que quer excluir o tópico {topico}? As seções e perguntas
-                deste topico tambem serão excluidas
-              </ExcluirMensagem>
-              <BoxBotoes>
-                <Botao onPress={excluirTopico}>
-                  <Octicons name='check' size={18} color='#fff' />
-                  <BotaoLabel>Sim</BotaoLabel>
-                </Botao>
-                <Botao onPress={() => setModalExcluirTopico(false)}>
-                  <Octicons name='x' size={14} color='#fff' />
-                  <BotaoLabel>Não</BotaoLabel>
-                </Botao>
-              </BoxBotoes>
-            </ModalBox>
-          </ModalContainer>
-        </Modal>
-        <Modal
+          message={`Tem certeza que quer excluir o tópico ${topico}? As seções e perguntas deste topico tambem serão excluidas`}
+          confirmFunction={excluirTopico}
+          closeFunction={() => setModalExcluirTopico(false)}
+        />
+        <ModalExcluir
           visible={modalExcluirSecao}
-          transparent={true}
-          animationType='fade'
-        >
-          <ModalContainer>
-            <ModalBox>
-              <ExcluirMensagem>
-                Tem certeza que quer excluir a seção {secao}? As perguntas desta
-                seção tambem serão excluidas
-              </ExcluirMensagem>
-              <BoxBotoes>
-                <Botao onPress={excluirSecao}>
-                  <Octicons name='check' size={18} color='#fff' />
-                  <BotaoLabel>Sim</BotaoLabel>
-                </Botao>
-                <Botao onPress={() => setModalExcluirSecao(false)}>
-                  <Octicons name='x' size={14} color='#fff' />
-                  <BotaoLabel>Não</BotaoLabel>
-                </Botao>
-              </BoxBotoes>
-            </ModalBox>
-          </ModalContainer>
-        </Modal>
-
+          message={` Tem certeza que quer excluir a seção ${secao}? As perguntas desta seção tambem serão excluidas`}
+          confirmFunction={excluirSecao}
+          closeFunction={() => setModalExcluirSecao(false)}
+        />
         <ListaPerguntas data={dataPerguntas} topico={topico} secao={secao} />
-      </ScrollContainer>
     </Wrapper>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

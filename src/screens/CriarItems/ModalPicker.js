@@ -4,7 +4,7 @@ import { ModalBox, ModalContainer,ModalItem, ItemText } from './styles';
 
 const ModalPicker = ({
   toggleModal,
-  setData,
+  setSelecionado,
   lista,
   isSecao,
   resetSecao,
@@ -12,7 +12,7 @@ const ModalPicker = ({
 }) => {
   const onPressItem = (option) => {
     toggleModal(false);
-    setData(option);
+    setSelecionado(option);
     if (!isSecao && reset) {
       resetSecao();
     }

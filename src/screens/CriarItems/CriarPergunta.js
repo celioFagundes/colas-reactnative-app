@@ -1,35 +1,27 @@
 import React, { useState, useEffect } from 'react'
-import { Modal, View } from 'react-native'
 import {
   useDatabase,
   useDatabasePush,
   useDatabaseShareGet,
 } from '../../config/database'
-import { Entypo } from '@expo/vector-icons'
-import ModalPicker from './ModalPicker'
+import Layout from '../../components/LayoutContainer'
 import CriarStatus from './CriarStatus'
+import Botao from '../../components/Botao'
+import ModalSelect from '../../components/ModalSelect'
 import {
-  Container,
   Input,
-  InputCodigo,
-  Button,
   ButtonTitle,
-  Tab,
-  ModalSelect,
-  ModalText,
   ContainerModais,
-  Header,
-  ModalContainer,
-  ModalBox,
-  Mensagem,
+  ButtonShare,
 } from './styles'
+import ModalAddShare from '../../components/ModalAddShare'
 const CriarPergunta = ({ topicos, status, setStatus }) => {
   const [pergunta, setPergunta] = useState({ pergunta: '', resposta: '' })
-  const [codigo, setCodigo] = useState('')
+  const [codigo, setCodigo] = useState('C000-36E2-4932')
   const [adicionarTerminou, setAdicionarTerminou] = useState(false)
   const [modalTopicoVisivel, setModalTopicoVisivel] = useState(false)
   const [modalSecaoVisivel, setModalSecaoVisivel] = useState(false)
-  const [modalShareVisivel, setModalShareVisivel] = useState()
+  const [modalShareVisivel, setModalShareVisivel] = useState(false)
   const [secaoSelecionada, setSecaoSelecionada] = useState('Seção')
   const [topicoSelecionado, setTopicoSelecionado] = useState('Tópico')
 
@@ -87,7 +79,6 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
     })
   }
 
-  const toggleModal = (func, bool) => func(bool)
   const resetSecao = () => {
     setSecaoSelecionada('Seção')
   }
@@ -148,118 +139,40 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
     
   }
   return (
-    <Container>
-      <Header>
-        <Tab>Criar uma nova pergunta</Tab>
-        <Button onPress={() => setModalShareVisivel(true)} disabled = {isDisabled()}>
+    <Layout title ='Criar uma nova pergunta'>
+        <ButtonShare onPress={() => setModalShareVisivel(true)} disabled = {isDisabled()}>
           <ButtonTitle>+ Código</ButtonTitle>
-        </Button>
-      </Header>
-      <Modal
-        transparent={true}
-        animationType='fade'
-        visible={modalShareVisivel}
-      >
-        <ModalContainer>
-          <ModalBox>
-            {!adicionarTerminou && (
-              <View>
-                <Mensagem>
-                  Insira um código para adicionar perguntas para o topico e
-                  seção selecionados
-                </Mensagem>
-                <Header>
-                  <Mensagem>
-                    Tópico:{' '}
-                    {topicoSelecionado !== 'Tópico'
-                      ? topicoSelecionado
-                      : 'Nenhum'}
-                  </Mensagem>
-                  <Mensagem>
-                    Seção:{' '}
-                    {secaoSelecionada !== 'Seção'
-                      ? secaoSelecionada
-                      : 'Nenhuma'}
-                  </Mensagem>
-                </Header>
-                <InputCodigo
-                  onChangeText={(text) => setCodigo(text)}
-                  placeholder='AAAA-BBBB-CCCC'
-                />
-                {status.tipo === 'codigo' && <CriarStatus status={status} />}
-                <Header>
-                  <Button onPress={() => receberPerguntas(codigo)}>
-                    <ButtonTitle>Adicionar</ButtonTitle>
-                  </Button>
-                  <Button onPress={() => setModalShareVisivel(false)}>
-                    <ButtonTitle>Cancelar</ButtonTitle>
-                  </Button>
-                </Header>
-              </View>
-            )}
-            {adicionarTerminou && (
-              <View>
-                <Mensagem>Perguntas adicionadas com sucesso</Mensagem>
-                <Button onPress={resetShare}>
-                  <ButtonTitle>Ok</ButtonTitle>
-                </Button>
-              </View>
-            )}
-          </ModalBox>
-        </ModalContainer>
-      </Modal>
+        </ButtonShare>
+        <ModalAddShare
+          visible={modalShareVisivel}
+          terminou={adicionarTerminou}
+          topicoSelecionado={topicoSelecionado}
+          secaoSelecionada={secaoSelecionada}
+          codigo={codigo}
+          codigoSet={setCodigo}
+          reset={resetShare}
+          get={receberPerguntas}
+          modalSet={setModalShareVisivel}
+          status={status}
+        />
       <ContainerModais>
-        <ModalSelect onPress={() => toggleModal(setModalTopicoVisivel, true)}>
-          <ModalText
-            color={
-              topicoSelecionado !== 'Tópico'
-                ? 'rgba(0,0,0,0.7)'
-                : 'rgba(0,0,0,0.3)'
-            }
-          >
-            {topicoSelecionado}
-          </ModalText>
-          <Entypo name='select-arrows' size={16} color='rgba(0,0,0,0.3)' />
-        </ModalSelect>
-        <Modal
-          transparent={true}
-          animationType='fade'
+        <ModalSelect
+          toggleModal={setModalTopicoVisivel}
+          selecionado={topicoSelecionado}
           visible={modalTopicoVisivel}
-          onRequestClose={() => toggleModal(setModalTopicoVisivel, false)}
-        >
-          <ModalPicker
-            toggleModal={setModalTopicoVisivel}
-            setData={setTopicoSelecionado}
-            lista={topicos}
-            reset={true}
-            resetSecao={resetSecao}
-          />
-        </Modal>
-        <ModalSelect onPress={() => toggleModal(setModalSecaoVisivel, true)}>
-          <ModalText
-            color={
-              secaoSelecionada !== 'Seção'
-                ? 'rgba(0,0,0,0.7)'
-                : 'rgba(0,0,0,0.3)'
-            }
-          >
-            {secaoSelecionada}
-          </ModalText>
-          <Entypo name='select-arrows' size={16} color='rgba(0,0,0,0.3)' />
-        </ModalSelect>
-        <Modal
-          transparent={true}
-          animationType='fade'
+          setSelecionado={setTopicoSelecionado}
+          reset={true}
+          resetSecao={resetSecao}
+          lista={topicos}
+        />
+        <ModalSelect
+          toggleModal={setModalSecaoVisivel}
+          selecionado={secaoSelecionada}
           visible={modalSecaoVisivel}
-          onRequestClose={() => toggleModal(setModalSecaoVisivel, false)}
-        >
-          <ModalPicker
-            toggleModal={setModalSecaoVisivel}
-            setData={setSecaoSelecionada}
-            lista={secoes && Object.values(secoes)}
-            isSecao={true}
-          />
-        </Modal>
+          setSelecionado={setSecaoSelecionada}
+          isSecao={true}
+          lista={secoes && Object.values(secoes)}
+        />
       </ContainerModais>
       <Input
         onChangeText={onChange('pergunta')}
@@ -274,10 +187,8 @@ const CriarPergunta = ({ topicos, status, setStatus }) => {
         multiline={true}
       />
       {status.tipo === 'pergunta' && <CriarStatus status={status} />}
-      <Button onPress={savePergunta}>
-        <ButtonTitle>Adicionar Pergunta</ButtonTitle>
-      </Button>
-    </Container>
+      <Botao funcao={savePergunta} title ='Adicionar Pergunta' ativado/>
+     </Layout>
   )
 }
 

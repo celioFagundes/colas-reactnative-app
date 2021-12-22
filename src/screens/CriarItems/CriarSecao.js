@@ -1,48 +1,36 @@
-import React, { useState } from 'react';
-import { useDatabase, useDatabasePush } from '../../config/database';
-import { Keyboard, Modal } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
-import ModalPicker from './ModalPicker';
-import CriarStatus from './CriarStatus';
-import {
-  Container,
-  Input,
-  Button,
-  ButtonTitle,
-  Tab,
-  ModalSelect,
-  ModalText,
-} from './styles';
+import React, { useState } from 'react'
+import { useDatabase, useDatabasePush } from '../../config/database'
+import { Keyboard, Modal } from 'react-native'
+import { Entypo } from '@expo/vector-icons'
+import ModalPicker from './ModalPicker'
+import CriarStatus from './CriarStatus'
+import Layout from '../../components/LayoutContainer'
+import Botao from '../../components/Botao'
+import ModalSelect from '../../components/ModalSelect'
+import {  Input, ModalText } from './styles'
 const CriarSecao = ({ topicos, status, setStatus }) => {
-  const [novaSecao, setNovaSecao] = useState('');
-  const [selecionado, setSelecionado] = useState('Tópico');
-  const [modalVisivel, setModalVisivel] = useState(false);
-  const secoes = useDatabase('/secoes/' + selecionado);
-  const [dataStatus, pushNovaData] = useDatabasePush();
+  const [novaSecao, setNovaSecao] = useState('')
+  const [selecionado, setSelecionado] = useState('Tópico')
+  const [modalVisivel, setModalVisivel] = useState(false)
+  const secoes = useDatabase('/secoes/' + selecionado)
+  const [dataStatus, pushNovaData] = useDatabasePush()
 
   const saveSecao = () => {
-    const invalidCharacters = ['.', '#', '$', '[', ']', '/'];
-    let listaSecoes = [];
+    const invalidCharacters = ['.', '#', '$', '[', ']', '/']
+    let listaSecoes = []
     secoes !== null &&
-      Object.keys(secoes).map((sec) => {
-        listaSecoes.push(secoes[sec].secao);
-      });
-    if (
-      novaSecao.trim() !== '' &&
-      selecionado !== 'Tópico' &&
-      !invalidCharacters.some((el) => novaSecao.includes(el))
-    ) {
-      if (
-        secoes === null ||
-        !listaSecoes.includes(novaSecao.toLocaleLowerCase())
-      ) {
+      Object.keys(secoes).map(sec => {
+        listaSecoes.push(secoes[sec].secao)
+      })
+    if (novaSecao.trim() !== '' && selecionado !== 'Tópico' && !invalidCharacters.some(el => novaSecao.includes(el))) {
+      if (secoes === null || !listaSecoes.includes(novaSecao.toLocaleLowerCase())) {
         pushNovaData('/secoes/' + selecionado, {
           secao: novaSecao.toLocaleLowerCase(),
-        });
-        Keyboard.dismiss();
-        setStatus({ tipo: 'secao', status: 'Seção criada', code: 'sucesso' });
+        })
+        Keyboard.dismiss()
+        setStatus({ tipo: 'secao', status: 'Seção criada', code: 'sucesso' })
       } else {
-        setStatus({ tipo: 'secao', status: 'A seção já existe', code: 'erro' });
+        setStatus({ tipo: 'secao', status: 'A seção já existe', code: 'erro' })
       }
     } else {
       selecionado === 'Tópico'
@@ -55,45 +43,23 @@ const CriarSecao = ({ topicos, status, setStatus }) => {
             tipo: 'secao',
             status: 'Valor inválido ou possui ".", "#", "$", "[","]", "/")',
             code: 'erro',
-          });
+          })
     }
-  };
+  }
   return (
-    <Container>
-      <Tab>Criar uma nova seção</Tab>
-      <ModalSelect onPress={() => setModalVisivel(true)}>
-        <ModalText
-          color={
-            selecionado !== 'Tópico' ? 'rgba(0,0,0,0.7)' : 'rgba(0,0,0,0.3)'
-          }
-        >
-          {selecionado}
-        </ModalText>
-        <Entypo name='select-arrows' size={16} color='rgba(0,0,0,0.3)' />
-      </ModalSelect>
-      <Modal
-        transparent={true}
-        animationType='fade'
-        visible={modalVisivel}
-        onRequestClose={() => setModalVisivel(false)}
-      >
-        <ModalPicker
-          toggleModal={setModalVisivel}
-          setData={setSelecionado}
-          lista={topicos}
-        />
-      </Modal>
-      <Input
-        onChangeText={(text) => setNovaSecao(text)}
-        value={novaSecao}
-        placeholder='Digite uma nova seção'
+    <Layout title='Criar uma nova seção'>
+      <ModalSelect
+        toggleModal={setModalVisivel}
+        visible = {modalVisivel}
+        lista = {topicos}
+        selecionado={selecionado}
+        setSelecionado={setSelecionado}
       />
+      <Input onChangeText={text => setNovaSecao(text)} value={novaSecao} placeholder='Digite uma nova seção' />
       {status.tipo === 'secao' && <CriarStatus status={status} />}
-      <Button onPress={saveSecao}>
-        <ButtonTitle>Adicionar Seção</ButtonTitle>
-      </Button>
-    </Container>
-  );
-};
+      <Botao funcao={saveSecao} title = 'Adicionar Seção' ativado/>
+    </Layout>
+  )
+}
 
-export default CriarSecao;
+export default CriarSecao

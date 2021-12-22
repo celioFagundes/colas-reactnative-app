@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../config/auth";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import ModalLogout from "../ModalExcluirELogout";
 import {
   Wrapper,
   User,
@@ -39,30 +40,13 @@ const Header = (props) => {
         <MaterialIcons name="logout" size={16} color="black" />
         <LogoutLabel>Sair</LogoutLabel>
       </LogoutButton>
-      <LogoutModal
-        transparent={true}
-        animationType="fade"
-        visible={modalVisivel}
-        onRequestClose={() => toggleModal(false)}
-      >
-        <ModalContainer>
-          <Container>
-            <LogoutMessage>
-              Tem certeza que quer sair desta conta?
-            </LogoutMessage>
-            <ContainerBotoes>
-              <Button onPress={onClickLogout}>
-                <Label>Sair</Label>
-              </Button>
-              <Button>
-                <Label onPress={() => toggleModal(false)}>
-                  Cancelar
-                </Label>
-              </Button>
-            </ContainerBotoes>
-          </Container>
-        </ModalContainer>
-      </LogoutModal>
+      <ModalLogout
+        visible = {modalVisivel}
+        message= {'Tem certeza que quer sair desta conta?'}
+        confirmFunction = {onClickLogout}
+        closeFunction={() => toggleModal(false)}
+      />
+
     </Wrapper>
   );
 };

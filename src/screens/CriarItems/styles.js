@@ -1,8 +1,8 @@
 import styled from 'styled-components/native';
 import { Dimensions } from 'react-native';
-
 const windowWidth = Dimensions.get('window').width - 30 + 'px';
 const windowHeight = Dimensions.get('window').height / 2 + 'px';
+import { Sombra } from '../../styles/geral';
 
 export const Wrapper = styled.View`
   flex: 1;
@@ -50,11 +50,7 @@ text-align:center;
   background-color: #fff;
   border-radius: 10px;
   margin: 15px 0;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 1px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
+  ${Sombra}
   
 `;
 
@@ -122,7 +118,7 @@ export const ContainerModais = styled.View`
   justify-content: space-between;
   align-items: center;
 
-  margin-bottom: 5px;
+  margin: 10px 0;
 `;
 export const ModalContainer = styled.TouchableOpacity`
   flex: 1;
@@ -168,4 +164,19 @@ export const Mensagem = styled.Text`
   text-transform: uppercase;
   text-align:center;
   margin:0 5px;
+`;
+
+export const ButtonShare = styled.TouchableOpacity`
+  background-color: ${props => props.disabled ? '#8AADFF': '#3772ff'};
+  position: absolute ;
+  top:15px;
+  right:0;
+  padding: 8px 15px;
+  border-radius: 8px;
+  margin-right: 10px;
+  border-top-width: 0.5px;
+  border-left-width: 0.5px;
+  border-right-width: 1px;
+  border-bottom-width: 2px;
+  border-color: rgba(0, 0, 0, 0.1);
 `;

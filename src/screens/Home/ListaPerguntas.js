@@ -1,42 +1,22 @@
 import React, { useState, useEffect } from 'react'
 import * as Clipboard from 'expo-clipboard'
 import { useDatabaseSharePush } from '../../config/database'
-import { Fontisto, MaterialIcons, Octicons } from '@expo/vector-icons'
+import { Fontisto, MaterialIcons } from '@expo/vector-icons'
 import ContainerExpansivo from './ContainerExpansivo'
-import {
-  LayoutAnimation,
-  Platform,
-  UIManager,
-  Modal,
-  Button,
-  Text,
-  View,
-  Alert,
-} from 'react-native'
+import BotaoIcone from '../../components/BotaoIcone'
+import ModalShare from '../../components/ModalShare'
+import HeaderSelecionar from '../../components/HeaderSelecionar'
+import { LayoutAnimation, Platform, UIManager, Alert, FlatList } from 'react-native'
 import {
   ContainerPerguntas,
   Tab,
   Header,
-  ToggleSelect,
-  IconsContainer,
   Lista,
   IconeSelecao,
   LabelCompartilhar,
-  MensagemCompartilhar,
-  Codigo,
-} from './styleListaPerguntas'
-import {
-  ModalBox,
-  ModalContainer,
-  BoxBotoes,
-  Botao,
-  BotaoLabel,
-} from './styles'
+} from './styles_lista'
 
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true)
 }
 
@@ -61,13 +41,13 @@ const ListaPerguntas = ({ data, topico, secao }) => {
     setDataSource(data)
   }, [data])
 
-  const updateLayout = (index) => {
+  const updateLayout = index => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     const array = dataSource
     if (multiSelect) {
       array[index]['expandido'] = !array[index]['expandido']
     } else {
-      Object.keys(array).map((value) =>
+      Object.keys(array).map(value =>
         value === index
           ? (array[value]['expandido'] = !array[value]['expandido'])
           : (array[value]['expandido'] = false)
@@ -75,8 +55,8 @@ const ListaPerguntas = ({ data, topico, secao }) => {
     }
     setDataSource({ ...array })
   }
-  const jaSelecionada = (id) => {
-    const status = perguntasSelecionadas.some((element) => {
+  const jaSelecionada = id => {
+    const status = perguntasSelecionadas.some(element => {
       if (element.id === id) {
         return true
       } else {
@@ -86,7 +66,7 @@ const ListaPerguntas = ({ data, topico, secao }) => {
     return status
   }
 
-  const selecionar = (id) => {
+  const selecionar = id => {
     setModoselecionando(true)
     if (!jaSelecionada(id)) {
       setPerguntasSelecionadas([
@@ -98,7 +78,7 @@ const ListaPerguntas = ({ data, topico, secao }) => {
         },
       ])
     } else {
-      const arraySemItem = perguntasSelecionadas.filter((item) => {
+      const arraySemItem = perguntasSelecionadas.filter(item => {
         return item.id !== id
       })
       setPerguntasSelecionadas([...arraySemItem])
@@ -113,7 +93,7 @@ const ListaPerguntas = ({ data, topico, secao }) => {
     if (perguntasSelecionadas.length === Object.keys(dataSource).length) {
       setPerguntasSelecionadas([])
     } else {
-      Object.keys(dataSource).map((item) => {
+      Object.keys(dataSource).map(item => {
         todasPerg.push({
           id: item,
           pergunta: dataSource[item].pergunta,
@@ -126,7 +106,7 @@ const ListaPerguntas = ({ data, topico, secao }) => {
   const share = () => {
     let arrayKey = genKey()
     Promise.all(
-      perguntasSelecionadas.map((perg) => {
+      perguntasSelecionadas.map(perg => {
         console.log('rodando')
         push(
           {
@@ -155,122 +135,66 @@ const ListaPerguntas = ({ data, topico, secao }) => {
       {!modoSelecionando && (
         <Header>
           <Tab>Perguntas</Tab>
-          <ToggleSelect onPress={() => setMultiSelect(!multiSelect)}>
-            <Tab>
-              {multiSelect ? (
-                <Fontisto name='arrow-v' size={18} color='#3772ff' />
-              ) : (
-                <IconsContainer>
-                  <Fontisto name='arrow-v' size={18} color='#3772ff' />
-                  <Fontisto name='arrow-v' size={18} color='#3772ff' />
-                </IconsContainer>
-              )}
-            </Tab>
-          </ToggleSelect>
+          {multiSelect ? (
+            <BotaoIcone
+              onPress={() => setMultiSelect(!multiSelect)}
+              name='horizontal-rule'
+              color='#3772ff'
+            />
+          ) : (
+            <BotaoIcone
+              onPress={() => setMultiSelect(!multiSelect)}
+              name='horizontal-split'
+              color='#3772ff'
+            />
+          )}
         </Header>
       )}
       {modoSelecionando && (
-        <Header>
-          <IconeSelecao onPress={selecionarTodas}>
-            <Tab>{perguntasSelecionadas.length}</Tab>
-            {dataSource &&
-            perguntasSelecionadas.length === Object.keys(dataSource).length ? (
-              <MaterialIcons name='check-circle' size={18} color='#000' />
-            ) : (
-              <MaterialIcons
-                name='radio-button-unchecked'
-                size={18}
-                color='#000'
-              />
-            )}
-            <Tab>Todas</Tab>
-          </IconeSelecao>
-          <IconeSelecao
-            onPress={() => setShareModalVisivel(true)}
-            disabled={compartilharDisabled}
-          >
-            <Fontisto
-              name='share-a'
-              size={16}
-              color={
-                compartilharDisabled
-                  ? 'rgba(0, 0, 0, 0.3)'
-                  : 'rgba(0, 0, 0, 0.6)'
-              }
-            />
-            <LabelCompartilhar disabled={compartilharDisabled}>
-              Compartilhar
-            </LabelCompartilhar>
-          </IconeSelecao>
-          <IconeSelecao onPress={sairDaSelecao}>
-            <Fontisto name='close' size={18} color='black' />
-          </IconeSelecao>
-        </Header>
+        <HeaderSelecionar
+          selecionarTodas={selecionarTodas}
+          lista={dataSource}
+          tamanhoSelecionadas={perguntasSelecionadas.length}
+          tamanhoLista={Object.keys(dataSource).length}
+          disabled={compartilharDisabled}
+          sairSelecao={sairDaSelecao}
+          modalToggle={setShareModalVisivel}
+        />
       )}
       <Lista>
-        {dataSource &&
-          Object.keys(dataSource).map((item, index) => (
-            <ContainerExpansivo
-              item={dataSource[item]}
-              id={item}
-              key={item}
-              selecionando={modoSelecionando}
-              selecionada={modoSelecionando && jaSelecionada(item)}
-              onLongPress={selecionar}
-              selecionarFunction={() => selecionar(item)}
-              onClickFunction={() => updateLayout(item)}
-              topico={topico}
-              secao={secao}
-            />
-          ))}
-      </Lista>
-      <Modal
-        visible={shareModalVisivel}
-        animationType='fade'
-        transparent={true}
-      >
-        <ModalContainer>
-          <ModalBox>
-            {!shareTerminou ? (
-              <View>
-                <MensagemCompartilhar>
-                  Compartilhar {perguntasSelecionadas.length}{' '}
-                  {perguntasSelecionadas.length > 1 ? 'perguntas' : ' pergunta'}{' '}
-                  ?
-                </MensagemCompartilhar>
-                <BoxBotoes>
-                  <Botao onPress={share}>
-                    <Octicons name='check' size={18} color='#fff' />
-                    <BotaoLabel>Sim</BotaoLabel>
-                  </Botao>
-                  <Botao onPress={() => setShareModalVisivel(false)}>
-                    <Octicons name='x' size={14} color='#fff' />
-                    <BotaoLabel>Não</BotaoLabel>
-                  </Botao>
-                </BoxBotoes>
-              </View>
-            ) : (
-              <View>
-                <MensagemCompartilhar>
-                  Use este código ao na aba de criação para copiar as perguntas
-                </MensagemCompartilhar>
-                <IconeSelecao>
-                  <Codigo>{codigoShare}</Codigo>
-                  <MaterialIcons
-                    name='content-copy'
-                    size={18}
-                    color='black'
-                    onPress={copyToClipboard}
-                  />
-                </IconeSelecao>
-                <Botao onPress={terminarShare}>
-                  <BotaoLabel>Ok</BotaoLabel>
-                </Botao>
-              </View>
+        {dataSource && (
+          <FlatList
+            data={Object.keys(dataSource)}
+            showsVerticalScrollIndicator={false}
+            keyExtractor={item => item}
+            style={{ marginTop: 15 }}
+            renderItem={({ item }) => (
+              <ContainerExpansivo
+                item={dataSource[item]}
+                id={item}
+                key={item}
+                selecionando={modoSelecionando}
+                selecionada={modoSelecionando && jaSelecionada(item)}
+                onLongPress={selecionar}
+                selecionarFunction={() => selecionar(item)}
+                onClickFunction={() => updateLayout(item)}
+                topico={topico}
+                secao={secao}
+              />
             )}
-          </ModalBox>
-        </ModalContainer>
-      </Modal>
+          />
+        )}
+      </Lista>
+      <ModalShare
+        visible={shareModalVisivel}
+        terminou={shareTerminou}
+        tamanho={perguntasSelecionadas.length}
+        shareFunction={share}
+        closeFunction={() => setShareModalVisivel(false)}
+        codigo={codigoShare}
+        finishFunction={terminarShare}
+        copy={copyToClipboard}
+      />
     </ContainerPerguntas>
   )
 }

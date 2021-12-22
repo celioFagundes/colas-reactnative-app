@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useDatabasePush } from '../../config/database';
 import { Keyboard } from 'react-native';
 import CriarStatus from './CriarStatus';
+import Layout from '../../components/LayoutContainer'
 import { Container, Input, Button, ButtonTitle, Tab } from './styles';
-
+import Botao from '../../components/Botao'
 const CriarTopico = ({ topicos, status, setStatus }) => {
   const [novoTopico, setNovoTopico] = useState('');
   const [dataStatus, pushNovaData] = useDatabasePush();
@@ -37,18 +38,17 @@ const CriarTopico = ({ topicos, status, setStatus }) => {
     }
   };
   return (
-    <Container>
-      <Tab>Criar um novo tópico</Tab>
+    <Layout title ='Criar um novo tópico'>
       <Input
         onChangeText={(text) => setNovoTopico(text)}
         value={novoTopico}
         placeholder='Digite um novo tópico'
       />
       {status.tipo === 'topico' && <CriarStatus status={status} />}
-      <Button onPress={saveTopico}>
-        <ButtonTitle>Adicionar Tópico</ButtonTitle>
-      </Button>
-    </Container>
+      <Botao funcao={saveTopico} title = 'Adicionar Tópico' ativado />
+
+    </Layout>
+    
   );
 };
 
