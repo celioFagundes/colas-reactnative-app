@@ -1,4 +1,4 @@
-### Colas App 
+### Colinhas App 
 
 ## Criar, editar e deletar
  <img src="https://user-images.githubusercontent.com/77676047/147246252-a72394fd-2cc0-4420-a6bc-da22cccc9354.gif"  width = '30%' height = '40%'/>
