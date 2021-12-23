@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import * as Clipboard from 'expo-clipboard'
 import { useDatabaseSharePush } from '../../config/database'
-import { Fontisto, MaterialIcons } from '@expo/vector-icons'
 import ContainerExpansivo from '../../components/ContainerExpansivo'
 import BotaoIcone from '../../components/BotaoIcone'
 import ModalShare from '../../components/ModalShare'
 import HeaderSelecionar from '../../components/HeaderSelecionar'
 import { LayoutAnimation, Platform, UIManager, Alert, FlatList } from 'react-native'
-import {
-  ContainerPerguntas,
-  Tab,
-  Header,
-  Lista,
-  IconeSelecao,
-  LabelCompartilhar,
-} from './styles_lista'
+import { ContainerPerguntas, Tab, Header } from './styles_lista'
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true)
@@ -22,7 +14,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 
 const ListaPerguntas = ({ data, topico, secao }) => {
   const [dataSource, setDataSource] = useState({})
-  const [codigoShare, setCodigoShare] = useState('')
+  const [codigoShare, setCodigoShare] = useState()
   const [verLista, setVerLista] = useState(false)
   const [shareTerminou, setShareTerminou] = useState(false)
   const [shareModalVisivel, setShareModalVisivel] = useState(false)
@@ -108,7 +100,6 @@ const ListaPerguntas = ({ data, topico, secao }) => {
     let arrayKey = genKey()
     Promise.all(
       perguntasSelecionadas.map(perg => {
-        console.log('rodando')
         push(
           {
             pergunta: perg.pergunta,
@@ -148,13 +139,13 @@ const ListaPerguntas = ({ data, topico, secao }) => {
           {multiSelect ? (
             <BotaoIcone
               onPress={() => setMultiSelect(!multiSelect)}
-              name='horizontal-rule'
+              name='horizontal-split'
               color='#3772ff'
             />
           ) : (
             <BotaoIcone
               onPress={() => setMultiSelect(!multiSelect)}
-              name='horizontal-split'
+              name='horizontal-rule'
               color='#3772ff'
             />
           )}
@@ -171,30 +162,30 @@ const ListaPerguntas = ({ data, topico, secao }) => {
           modalToggle={setShareModalVisivel}
         />
       )}
-      <Lista>
-        {dataSource && (
-          <FlatList
-            data={Object.keys(dataSource)}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={item => item}
-            style={{ marginTop: 15 }}
-            renderItem={({ item }) => (
-              <ContainerExpansivo
-                item={dataSource[item]}
-                id={item}
-                key={item}
-                selecionando={modoSelecionando}
-                selecionada={modoSelecionando && jaSelecionada(item)}
-                onLongPress={selecionar}
-                selecionarFunction={() => selecionar(item)}
-                onClickFunction={() => updateLayout(item)}
-                topico={topico}
-                secao={secao}
-              />
-            )}
-          />
-        )}
-      </Lista>
+
+      {dataSource && (
+        <FlatList
+          data={Object.keys(dataSource)}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item}
+          style={{ marginTop: 15 }}
+          renderItem={({ item }) => (
+            <ContainerExpansivo
+              item={dataSource[item]}
+              id={item}
+              key={item}
+              selecionando={modoSelecionando}
+              selecionada={modoSelecionando && jaSelecionada(item)}
+              onLongPress={selecionar}
+              selecionarFunction={() => selecionar(item)}
+              onClickFunction={() => updateLayout(item)}
+              topico={topico}
+              secao={secao}
+            />
+          )}
+        />
+      )}
+
       <ModalShare
         visible={shareModalVisivel}
         terminou={shareTerminou}

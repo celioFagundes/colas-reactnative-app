@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from 'react-native'
-import { ModalContainer, ModalBox, Mensagem, BoxBotoes, BotaoLabel } from './style'
+import { ModalContainer, ModalBox, Mensagem, BoxBotoes, } from './style'
 import Botao from '../Botao'
 const ModalExcluirELogout = ({ visible, message, closeFunction, confirmFunction }) => {
   return (

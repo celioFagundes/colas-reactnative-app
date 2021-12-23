@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useDatabase, useDatabaseRemove } from '../../config/database'
-import ListaPerguntas from './ListaPerguntas'
 import ModalExcluir from '../../components/ModalExcluirELogout'
 import { AuthContext } from '../../config/auth'
+import ListaPerguntas from './ListaPerguntas'
 import Lista from '../../components/Lista'
 import Layout from '../../components/LayoutContainer'
 import BotaoIcone from '../../components/BotaoIcone'
-import { Text, View } from 'react-native'
+
 import {
   Wrapper,
-  ScrollView,
   Placeholder,
 } from './styles_index'
 

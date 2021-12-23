@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useDatabase, useDatabasePush } from '../../config/database'
-import { Keyboard, Modal } from 'react-native'
+import { Keyboard} from 'react-native'
 import CriarStatus from '../../components/Status';
 import Layout from '../../components/LayoutContainer'
 import Botao from '../../components/Botao'
 import ModalSelect from '../../components/ModalSelect'
-import {  Input, ModalText } from './styles'
+import { Input} from './styles'
 const CriarSecao = ({ topicos, status, setStatus }) => {
   const [novaSecao, setNovaSecao] = useState('')
   const [selecionado, setSelecionado] = useState('Tópico')

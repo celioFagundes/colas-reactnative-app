@@ -11,7 +11,3 @@ export const Container = styled.View`
 export const Tab = styled(Texto)`
   font-weight: bold;
 `;
-
-export const Placeholder = styled.Text`
-  
-`;

@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useDatabaseRemove, useDatabaseUpdate } from '../../config/database'
 import BotaoIcone from '../BotaoIcone'
 import { Octicons } from '@expo/vector-icons'
+import ModalExcluir from '../ModalExcluirELogout'
+import ModalEdit from '../ModalEdit'
+
 import {
   Wrapper,
   ContainerPergunta,
@@ -12,10 +15,7 @@ import {
   Icon,
   Acoes,
 
- 
 } from './style'
-import ModalExcluir from '../ModalExcluirELogout'
-import ModalEdit from '../ModalEdit'
 
 const ContainerExpansivo = ({
   item,

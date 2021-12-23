@@ -1,11 +1,6 @@
 import styled, { css } from 'styled-components/native'
 import { Texto } from '../../styles/geral'
 
-export const FlexContainer = css`
-  flex-direction: row;
-  align-items: center;
-`
-
 export const Wrapper = styled.View`
   margin: 15px 0;
 `

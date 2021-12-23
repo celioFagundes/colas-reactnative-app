@@ -1,7 +1,4 @@
 import styled from 'styled-components/native';
-import { Dimensions } from 'react-native';
-const windowWidth = Dimensions.get('window').width - 30 + 'px';
-const windowHeight = Dimensions.get('window').height / 2 + 'px';
 import { Sombra } from '../../styles/geral';
 
 export const Wrapper = styled.View`
@@ -17,11 +14,7 @@ export const Container = styled.View`
   background-color: #f8f9fb;
   border-radius: 8px;
   padding: 10px;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 0.5px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
+  ${Sombra}
 `;
 
 export const Input = styled.TextInput.attrs({
@@ -33,81 +26,12 @@ export const Input = styled.TextInput.attrs({
   background-color: #fff;
   border-radius: 10px;
   margin: 5px 0;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 1px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
-  
-`;
-export const InputCodigo = styled.TextInput.attrs({
-  placeholderTextColor: 'rgba(0, 0, 0, 0.3)',
-})`
-text-align:center;
-  padding: 10px;
-  font-size: 18px;
-  width: 70%;
-  background-color: #fff;
-  border-radius: 10px;
-  margin: 15px 0;
   ${Sombra}
   
 `;
 
-export const Button = styled.TouchableOpacity`
-  background-color: ${props => props.disabled ? '#8AADFF': '#3772ff'};
-  align-self: center;
-  padding: 8px 15px;
-  border-radius: 8px;
-  margin-right: 10px;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 1px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
-`;
 export const ButtonTitle = styled.Text`
   color: #fff;
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-`;
-export const Tab = styled.Text`
-  color: rgba(0, 0, 0, 0.6);
-  font-size: 18px;
-  font-weight: bold;
-`;
-export const Status = styled.View`
-  flex-direction: row;
-  align-items: center;
-  align-self: flex-start;
-  margin-bottom: 5px;
-`;
-export const StatusIcon = styled.View`
-  margin-right: 5px;
-`;
-export const StatusMessage = styled.Text`
-  color: ${(props) => (props.code === 'sucesso' ? '#14CC60' : '#FF5154')};
-`;
-
-export const ModalSelect = styled.TouchableOpacity`
-  flex-direction: row;
-  justify-content: space-between;
-  width: 48%;
-  align-items: stretch;
-  background-color: #fff;
-  padding: 8px 10px;
-  border-radius: 8px;
-  margin: 10px 0;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 1px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
-`;
-export const ModalText = styled.Text`
-  color: ${(props) => props.color};
-
   font-size: 14px;
   font-weight: bold;
   text-transform: uppercase;
@@ -120,51 +44,6 @@ export const ContainerModais = styled.View`
 
   margin: 10px 0;
 `;
-export const ModalContainer = styled.TouchableOpacity`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
-`;
-export const ModalBox = styled.View`
-  height: ${windowHeight};
-  width: ${windowWidth};
-  justify-content: center;
-  align-items:center;
-  padding:20px;
-  background-color: #f8f9fb;
-  border-radius: 5px;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 1px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
-`;
-export const ModalItem = styled.TouchableOpacity`
-  align-items:center;
-`;
-export const ItemText = styled.Text`
-  color: #000;
-  margin: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  text-transform: capitalize;
-`;
-
-export const Header = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin:5px;
-`;
-
-export const Mensagem = styled.Text`
-  font-size: 14px;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-align:center;
-  margin:0 5px;
-`;
 
 export const ButtonShare = styled.TouchableOpacity`
   background-color: ${props => props.disabled ? '#8AADFF': '#3772ff'};
@@ -172,9 +51,5 @@ export const ButtonShare = styled.TouchableOpacity`
   width: 100px;
   border-radius: 8px;
   margin: 5px 0px;
-  border-top-width: 0.5px;
-  border-left-width: 0.5px;
-  border-right-width: 1px;
-  border-bottom-width: 2px;
-  border-color: rgba(0, 0, 0, 0.1);
+  ${Sombra}
 `;

@@ -3,8 +3,9 @@ import { useDatabasePush } from '../../config/database';
 import { Keyboard } from 'react-native';
 import CriarStatus from '../../components/Status';
 import Layout from '../../components/LayoutContainer'
-import { Container, Input, Button, ButtonTitle, Tab } from './styles';
+import { Input } from './styles';
 import Botao from '../../components/Botao'
+
 const CriarTopico = ({ topicos, status, setStatus }) => {
   const [novoTopico, setNovoTopico] = useState('');
   const [dataStatus, pushNovaData] = useDatabasePush();

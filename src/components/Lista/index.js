@@ -1,6 +1,7 @@
 import React from 'react'
 import { FlatList } from 'react-native'
 import Botao from '../Botao'
+
 const Lista = ({ data, refetchFunction, tipo, selecionado }) => {
   return (
     <FlatList

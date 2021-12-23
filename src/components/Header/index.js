@@ -8,16 +8,9 @@ import {
   Username,
   LogoutButton,
   LogoutLabel,
-  LogoutModal,
-  ModalContainer,
-  Container,
-  LogoutMessage,
-  ContainerBotoes,
-  Button,
-  Label,
 } from "./style";
 
-const Header = (props) => {
+const Header = () => {
   const auth = useContext(AuthContext);
   const [modalVisivel, setModalVisivel] = useState(false);
 

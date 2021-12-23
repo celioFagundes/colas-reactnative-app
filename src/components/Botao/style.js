@@ -1,5 +1,6 @@
 import styled from "styled-components/native";
 import { Sombra } from "../../styles/geral";
+
 export const Button = styled.TouchableOpacity`
   background-color: ${(props) => (props.ativado ? "#3772ff" : "#6E99FF")};
   max-height:40px;

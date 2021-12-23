@@ -1,12 +1,16 @@
 import React from 'react'
 import { Fontisto, MaterialIcons } from '@expo/vector-icons'
-import {
-    Tab,
-    Header,
-    IconeSelecao,
-    LabelCompartilhar,
-  } from './style'
-const HeaderSelecionar = ({selecionarTodas,lista, tamanhoSelecionadas, tamanhoLista ,disabled, sairSelecao, modalToggle}) => {
+import { Tab, Header, IconeSelecao, LabelCompartilhar } from './style'
+
+const HeaderSelecionar = ({
+  selecionarTodas,
+  lista,
+  tamanhoSelecionadas,
+  tamanhoLista,
+  disabled,
+  sairSelecao,
+  modalToggle,
+}) => {
   return (
     <Header>
       <IconeSelecao onPress={selecionarTodas}>

@@ -72,7 +72,7 @@ const Login = (props) => {
         <ButtonTitle>Entrar</ButtonTitle>
       </Button>
       <NovaConta>
-        Não possui uma conta ?
+        Não possui uma conta ?{' '}
         <Link onPress={() => props.navigation.navigate('NovoUser')}>
           Criar uma conta
         </Link>

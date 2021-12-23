@@ -8,16 +8,17 @@ import Layout from '../../components/LayoutContainer'
 import CriarStatus from '../../components/Status';
 import Botao from '../../components/Botao'
 import ModalSelect from '../../components/ModalSelect'
+import ModalAddShare from '../../components/ModalAddShare'
 import {
   Input,
   ButtonTitle,
   ContainerModais,
   ButtonShare,
 } from './styles'
-import ModalAddShare from '../../components/ModalAddShare'
+
 const CriarPergunta = ({ topicos, status, setStatus }) => {
   const [pergunta, setPergunta] = useState({ pergunta: '', resposta: '' })
-  const [codigo, setCodigo] = useState('C000-36E2-4932')
+  const [codigo, setCodigo] = useState()
   const [adicionarTerminou, setAdicionarTerminou] = useState(false)
   const [modalTopicoVisivel, setModalTopicoVisivel] = useState(false)
   const [modalSecaoVisivel, setModalSecaoVisivel] = useState(false)

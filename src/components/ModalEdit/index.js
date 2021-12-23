@@ -1,8 +1,8 @@
 import React from 'react'
 import { Modal } from 'react-native'
 import { ModalContainer, ModalBox ,BoxBotoes, Tab, Input} from './style'
-
 import Botao from '../Botao'
+
 const ModalEdit = ({ visible,  editFunction, closeFunction, onChangePerg,onChangeRes, valuePerg,valueRes }) => {
   return (
     <Modal visible={visible} transparent={true} animationType='fade'>

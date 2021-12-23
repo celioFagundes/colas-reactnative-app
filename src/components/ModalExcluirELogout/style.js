@@ -33,16 +33,3 @@ export const BoxBotoes = styled.View`
   justify-content: space-evenly;
   align-self: center;
 `;
-export const Botao = styled.TouchableOpacity`
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 15px;
-  border-radius: 8px;
-  margin: 5px;
-  background-color: rgba(0, 0, 0, 0.8);
-`;
-export const BotaoLabel = styled(Texto)`
-  color: #fff;
-  margin-left: 5px;
-`;

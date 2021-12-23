@@ -1,8 +1,5 @@
 import styled from "styled-components/native";
-import { Dimensions } from 'react-native';
 import { Sombra } from "../../styles/geral";
-const windowWidth = Dimensions.get('window').width - 30 + 'px';
-const windowHeight = Dimensions.get('window').height / 2 + 'px';
 
 export const Select = styled.TouchableOpacity`
   flex-direction: row;
