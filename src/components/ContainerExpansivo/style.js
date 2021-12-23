@@ -29,7 +29,8 @@ export const Icon = styled.View`
   right: 10px;
 `
 export const Acoes = styled.View`
-  ${FlexContainer}
+  flex-direction:row;
+  justify-content:center
   align-self: flex-end;
 `
 

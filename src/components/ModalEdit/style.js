@@ -1,4 +1,3 @@
-
 import styled from 'styled-components/native'
 import { Dimensions } from 'react-native'
 const windowWidth = Dimensions.get('window').width - 30 + 'px'

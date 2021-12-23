@@ -1,5 +1,4 @@
 import styled from "styled-components/native";
-import { Sombra , Texto} from "../../styles/geral";
 
 export const Wrapper = styled.View`
   flex: 1;
