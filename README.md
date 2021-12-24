@@ -1,10 +1,34 @@
 # Colinhas App 
 
-## Criar, editar e deletar
- <img src="https://user-images.githubusercontent.com/77676047/147246252-a72394fd-2cc0-4420-a6bc-da22cccc9354.gif"  width = '30%' height = '40%'/>
- 
-## Compartilhando
-<img src="https://user-images.githubusercontent.com/77676047/147246404-fc5ca361-6e7a-425e-a40a-f09828d488bd.gif"  width = '30%' height = '40%'/>
+<table>
+    <thead>
+       <tr>
+        <td>
+            Criar, editar e excluir
+        </td>
+        <td>
+            Compartilhamento
+        </td>
+        <td>
+            Login e criação de usuario
+        </td>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+        <td>
+  <img src="https://user-images.githubusercontent.com/77676047/147246252-a72394fd-2cc0-4420-a6bc-da22cccc9354.gif"  width = '250' height = '600'/>
+        </td>
+        <td>
+             <img src="https://user-images.githubusercontent.com/77676047/147246404-fc5ca361-6e7a-425e-a40a-f09828d488bd.gif"  width = '250' height = '600'/>
+        </td>
+        <td>
+             <img src="https://user-images.githubusercontent.com/77676047/147303872-f8ef22a5-c1ed-4a0a-9bb4-870c268f251e.gif" width = '250' height = '600'/>
+        </td>
+     </tr>
+    </tbody>
+</table>
+
 
 ### Sobre
   Criação e compartilhamento de perguntas com respostas para uma revisão rapida de um asssunto
