@@ -68,7 +68,7 @@ const Home = props => {
           ) : (
             <Placeholder>Sem tópicos</Placeholder>
           )}
-          {topico !== null && (
+          {topico !== undefined && (
             <BotaoIcone name='delete' color='#3772ff' onPress={() => setModalExcluirTopico(true)} />
           )}
         </Layout>
@@ -83,7 +83,7 @@ const Home = props => {
           ) : (
             <Placeholder>{topico === null ? 'Selecione um tópico' : 'Sem secões'}</Placeholder>
           )}
-          {secao !== null && (
+          {secao !==  undefined && (
             <BotaoIcone name='delete' color='#3772ff' onPress={() => setModalExcluirSecao(true)} />
           )}
         </Layout>
