@@ -73,15 +73,15 @@ const ContainerExpansivo = ({
             {item.expandido ? (
               <Octicons name='arrow-small-up' size={24} color='#fff' />
             ) : (
-              <Octicons name='arrow-small-down' size={28} color='#fff' />
+              <Octicons name='arrow-small-down' size={24} color='#fff' />
             )}
           </Icon>
         ) : (
           <Icon>
             {selecionada ? (
-              <BotaoIcone name='check-circle' color='#fff' onPress={selecionarFunction} />
+              <BotaoIcone name='check-circle'  size={24} color='#fff' onPress={selecionarFunction} />
             ) : (
-              <BotaoIcone name='radio-button-unchecked' color='#fff' onPress={selecionarFunction} />
+              <BotaoIcone name='radio-button-unchecked' size={24} color='#fff' onPress={selecionarFunction} />
             )}
           </Icon>
         )}

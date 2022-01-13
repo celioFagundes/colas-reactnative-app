@@ -6,7 +6,7 @@ export const Wrapper = styled.View`
 `
 export const ContainerPergunta = styled.TouchableOpacity`
   background-color: ${(props) => (props.selecionada ? '#1545B3' : '#3772ff')};
-  padding: 20px;
+  padding: 15px 20px;
   border-top-right-radius: 8px;
   border-top-left-radius: 8px;
   border-bottom-right-radius: ${(props) => (props.expandido ? '0px' : '8px')};
@@ -25,7 +25,7 @@ export const Resposta = styled.View`
 `
 export const Icon = styled.View`
   position: absolute;
-  top: 20px;
+  top:50%;
   right: 10px;
 `
 export const Acoes = styled.View`
@@ -39,6 +39,8 @@ export const Acoes = styled.View`
 
 export const TextoPergunta = styled(Texto)`
   color: #fff;
+  
+  width: 95%;
 `
 export const TextoResposta = styled(Texto)``
 
