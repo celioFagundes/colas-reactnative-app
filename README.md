@@ -1,23 +1,41 @@
-### Colas App 
-<p float= 'left'>
-<img src="https://user-images.githubusercontent.com/77676047/145034460-4d3c696c-06fb-4158-885a-4ac45b3e5efe.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/144287892-bc350367-98c8-436f-a54c-c530ab75418a.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/144287887-bdd5d537-f183-43da-bf37-dc0e980f6a2c.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/144287893-93f0aa84-fd27-41f2-881d-22a3868481ce.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/144287896-f3021314-39ce-4c35-bae7-60ed4eb35848.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/144287897-cdf4d98c-51b3-49a6-874b-6c2b22662bdb.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/145034454-c969c2cc-fb90-45b2-a0d4-fdf87b986c3f.jpg" width=300 height=600 >
-<img src="https://user-images.githubusercontent.com/77676047/145034462-e460004a-132a-4c9f-824d-3fbc117fafee.jpg" width=300 height=600 >
- </p>
+# Colinhas App 
 
-
+<table>
+    <thead>
+       <tr>
+        <td>
+            Criar, editar e excluir
+        </td>
+        <td>
+            Compartilhamento
+        </td>
+        <td>
+            Login e criação de usuario
+        </td>
+     </tr>
+    </thead>
+    <tbody>
+     <tr>
+        <td>
+  <img src="https://user-images.githubusercontent.com/77676047/147246252-a72394fd-2cc0-4420-a6bc-da22cccc9354.gif"  width = '250' height = '600'/>
+        </td>
+        <td>
+             <img src="https://user-images.githubusercontent.com/77676047/147246404-fc5ca361-6e7a-425e-a40a-f09828d488bd.gif"  width = '250' height = '600'/>
+        </td>
+        <td>
+             <img src="https://user-images.githubusercontent.com/77676047/147303872-f8ef22a5-c1ed-4a0a-9bb4-870c268f251e.gif" width = '250' height = '600'/>
+        </td>
+     </tr>
+    </tbody>
+</table>
 
 
 ### Sobre
-  Criação de perguntas com respostas para uma revisão rapida de um asssunto
+  Criação e compartilhamento de perguntas com respostas para uma revisão rapida de um asssunto
 
 ### Funcionalidades
 - Criar,editar e deletar perguntas, tópicos e seções
+- Compartilhar perguntas selecionadas atraves de um código
 - Separar perguntas por topicos e seções. Ex : Tópico : Javascript, Seção : Funções
 - Sistema de login e autenticação utilizando Firebase authentication
 - Banco de dados utilizando Firebase Real time Database
